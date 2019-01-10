@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateCpiFixedData < ActiveRecord::Migration[5.2]
   def change
     create_table :cpi_fixed_data do |t|

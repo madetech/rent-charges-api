@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+class RentSummary < ApplicationRecord
+  validates_presence_of :year
+  validates_presence_of :rr_count_total
+  validates_presence_of :jan_1999_asset_values_total
+  validates_presence_of :formula_rent_prev_year_average
+  validates_presence_of :rent_cap_prev_year_average
+  validates_presence_of :current_rent_as_at_2407_of_prev_year_average
+  validates_presence_of :formula_rent_this_year_average
+  validates_presence_of :rent_cap_this_year_average
+  validates_presence_of :lower_of_formula_rent_or_cap_average
+  validates_presence_of :uprated_actual_average
+  validates_presence_of :actual_rent_this_year_average
+  validates_presence_of :ratio_of_actual_rent_this_year_to_current_rent_at_2407_of_prev_year
+  validates_presence_of :ar_average_fr_average_difference
+  validates_presence_of :full_year_forecast_average
+  validates_presence_of :year_on_year_percentage_change_average
+end
