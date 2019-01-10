@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_10_140554) do
+ActiveRecord::Schema.define(version: 2019_01_10_141027) do
 
   create_table "cpi_fixed_data", force: :cascade do |t|
     t.string "year"
@@ -103,6 +103,17 @@ ActiveRecord::Schema.define(version: 2019_01_10_140554) do
     t.decimal "ar_average_fr_average_difference"
     t.decimal "full_year_forecast_average"
     t.decimal "year_on_year_percentage_change_average"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "rpi_fixed_data", force: :cascade do |t|
+    t.string "year"
+    t.decimal "rpi"
+    t.decimal "real"
+    t.decimal "fr_uplift"
+    t.decimal "rc_factor"
+    t.decimal "rc_uplift"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
