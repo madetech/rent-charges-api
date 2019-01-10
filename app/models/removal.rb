@@ -12,7 +12,7 @@ class Removal < ApplicationRecord
   validates_presence_of :jan_1999_asset_values
   validates_presence_of :formula_rent_prev_year
   validates_presence_of :rent_cap_prev_year
-  validates_presence_of :current_rent_as_at_22_10_of_prev_year
+  validates_presence_of :current_rent_as_at_2210_of_prev_year
   validates_presence_of :formula_rent_this_year
   validates_presence_of :rent_cap_this_year
   validates_presence_of :lower_of_formula_rent_or_cap
