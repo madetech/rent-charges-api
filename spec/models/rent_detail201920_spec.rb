@@ -28,5 +28,6 @@ RSpec.describe RentDetail201920, type: :model do
   it { should validate_presence_of(:year_on_year_percentage_change) }
   it { should validate_presence_of(:actual_rent_greater_than_rent_cap) }
   it { should validate_presence_of(:actual_rent_greater_than_formula_rent) }
+  it { should validate_presence_of(:year) }
 
 end

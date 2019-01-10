@@ -26,5 +26,6 @@ class RentDetail201920 < ApplicationRecord
   validates_presence_of :year_on_year_percentage_change
   validates_presence_of :actual_rent_greater_than_rent_cap
   validates_presence_of :actual_rent_greater_than_formula_rent
+  validates_presence_of :year
 
 end
