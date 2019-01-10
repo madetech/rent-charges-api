@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_10_143218) do
+ActiveRecord::Schema.define(version: 2019_01_10_143925) do
 
   create_table "cpi_fixed_data", force: :cascade do |t|
     t.string "year"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2019_01_10_143218) do
     t.decimal "jan_1999_asset_values"
     t.decimal "formula_rent_prev_year"
     t.decimal "rent_cap_prev_year"
-    t.decimal "current_rent_as_at_24_07_of_prev_year"
+    t.decimal "current_rent_as_at_2407_of_prev_year"
     t.decimal "formula_rent_this_year"
     t.decimal "rent_cap_this_year"
     t.decimal "lower_of_formula_rent_or_cap"
