@@ -53,7 +53,7 @@ describe RentDetail, focus:true do
 
   context 'given valid default rent details' do
     it 'stores the rent details' do
-      allow(fixed_data_gateway).to receive(:get_rc_uplift) { -0.01 }
+      allow(fixed_data_gateway).to receive(:get_rc_uplift_data) { -0.01 }
       rent_detail = {
       uprn:'UPRN1',
       address:'136 Southwark Street',
@@ -93,7 +93,7 @@ describe RentDetail, focus:true do
 
   context 'given rent details' do
     it 'calculates formulas' do
-      allow(fixed_data_gateway).to receive(:get_rc_uplift) { -0.01 }
+      allow(fixed_data_gateway).to receive(:get_rc_uplift_data) { -0.01 }
       rent_detail = {
         uprn:'UPRN2',
         formula_rent_prev_year: 108.03,

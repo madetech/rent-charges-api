@@ -1,10 +1,10 @@
 class RentDetail
   def initialize(rent_detail_gateway:, fixed_data_gateway:)
     @rent_detail_gateway = rent_detail_gateway
-    @fixed_data_gateway = fixed_data_gateway.get_rc_uplift
+    @rc_uplift_fixed_data = fixed_data_gateway.get_rc_uplift_data
   end
 
-  attr_reader :fixed_data_gateway, 
+  attr_reader :rc_uplift_fixed_data, 
               :rent_detail_gateway,
               :rent_detail
 
@@ -43,8 +43,8 @@ class RentDetail
       actual_rent_greater_than_rent_cap: cal_actual_rent_greater_than_rc,
       actual_rent_greater_than_formula_rent: cal_actual_rent_greater_than_fr
     })
-
-    return { successful: true, errors: [] }
+    
+    { successful: true, errors: [] }
   end 
 
   private
@@ -64,7 +64,7 @@ class RentDetail
   end
 
   def calc_rent_cap_this_year
-    (rent_detail[:rent_cap_prev_year] * ( 1 + fixed_data_gateway)).round(2) 
+    (rent_detail[:rent_cap_prev_year] * ( 1 + rc_uplift_fixed_data)).round(2) 
   end 
 
   def calc_lower_of_formula_rent_or_cap

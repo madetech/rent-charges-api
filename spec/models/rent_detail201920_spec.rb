@@ -5,7 +5,6 @@ RSpec.describe RentDetail201920, type: :model do
   it { should validate_presence_of(:uprn) }
   it { should validate_presence_of(:address) }
   it { should validate_presence_of(:address_2) }
-  it { should validate_presence_of(:comments) }
   it { should validate_presence_of(:rr_count) }
   it { should validate_presence_of(:property_type) }
   it { should validate_presence_of(:base_data_bed_size) }
