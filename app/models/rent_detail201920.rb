@@ -3,7 +3,6 @@ class RentDetail201920 < ApplicationRecord
   validates_presence_of :uprn
   validates_presence_of :address
   validates_presence_of :address_2
-  validates_presence_of :comments
   validates_presence_of :rr_count
   validates_presence_of :property_type
   validates_presence_of :base_data_bed_size
