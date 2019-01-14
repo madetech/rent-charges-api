@@ -53,6 +53,7 @@ describe RentDetail, focus:true do
 
   context 'given valid default rent details' do
     it 'stores the rent details' do
+      allow(fixed_data_gateway).to receive(:get_rc_uplift) { -0.01 }
       rent_detail = {
       uprn:'UPRN1',
       address:'136 Southwark Street',
@@ -68,7 +69,6 @@ describe RentDetail, focus:true do
       rent_cap_prev_year:143.00,
       current_rent_as_at_2407_of_prev_year:143.00,
       year:'2019-20'
-      
     }
     save_rent_detail.execute(rent_detail: rent_detail)
 
@@ -93,21 +93,28 @@ describe RentDetail, focus:true do
 
   context 'given rent details' do
     it 'calculates formulas' do
+      allow(fixed_data_gateway).to receive(:get_rc_uplift) { -0.01 }
       rent_detail = {
         uprn:'UPRN2',
         formula_rent_prev_year: 108.03,
-        current_rent_as_at_2407_of_prev_year: 108.04
+        current_rent_as_at_2407_of_prev_year: 108.04,
+        rent_cap_prev_year:153.36
       }
       save_rent_detail.execute(rent_detail: rent_detail)
 
       expect(rent_detail_gateway).to have_received(:save) do |detail|
         expect(detail[:formula_rent_this_year]).to eq(106.95)
+        expect(detail[:rent_cap_this_year]).to eq(151.83)
+        expect(detail[:lower_of_formula_rent_or_cap]).to eq(106.95)
         expect(detail[:uprated_actual]).to eq(106.96)
+        expect(detail[:cap_v_act_plus_2_pounds]).to eq(106.95)
+        expect(detail[:act_minus_2_pounds]).to eq(106.95)
         expect(detail[:actual_rent_this_year]).to eq(106.96)
         expect(detail[:converged]).to eq('Yes')
         expect(detail[:difference_between_ar_and_fr]).to eq(-0.01)
         expect(detail[:full_year_forecast]).to eq(5561.90)
         expect(detail[:year_on_year_percentage_change]).to eq(-1.00)
+        expect(detail[:actual_rent_greater_than_rent_cap]).to eq('No')
         expect(detail[:actual_rent_greater_than_formula_rent]).to eq('Yes')
       end 
     end 
