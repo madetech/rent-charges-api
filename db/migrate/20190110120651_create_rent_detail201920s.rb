@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateRentDetail201920s < ActiveRecord::Migration[5.2]
   def change
     create_table :rent_detail201920s do |t|

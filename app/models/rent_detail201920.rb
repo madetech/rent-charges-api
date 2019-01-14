@@ -1,5 +1,6 @@
-class RentDetail201920 < ApplicationRecord
+# frozen_string_literal: true
 
+class RentDetail201920 < ApplicationRecord
   validates_presence_of :uprn
   validates_presence_of :address
   validates_presence_of :address_2
@@ -26,5 +27,4 @@ class RentDetail201920 < ApplicationRecord
   validates_presence_of :year_on_year_percentage_change
   validates_presence_of :actual_rent_greater_than_rent_cap
   validates_presence_of :actual_rent_greater_than_formula_rent
-
 end

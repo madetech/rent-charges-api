@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe RentDetail201920, type: :model do
-
   it { should validate_presence_of(:uprn) }
   it { should validate_presence_of(:address) }
   it { should validate_presence_of(:address_2) }
@@ -28,5 +29,4 @@ RSpec.describe RentDetail201920, type: :model do
   it { should validate_presence_of(:year_on_year_percentage_change) }
   it { should validate_presence_of(:actual_rent_greater_than_rent_cap) }
   it { should validate_presence_of(:actual_rent_greater_than_formula_rent) }
-
 end
