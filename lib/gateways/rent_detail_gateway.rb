@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RentDetailsGateway
+class RentDetailGateway
   def all
     RentDetail201920.all
   end
