@@ -41,5 +41,14 @@ describe ViewFixedData do
       response = view_fixed_data.specific_year('2014-15')
       expect(response).to eq(year: '2014-15', rc_uplift: 0.0015)
     end
+
+    it 'returns rc_uplift' do
+      fixed_data_gateway = double(rc_uplift: 0.002 )
+
+      view_fixed_data = described_class.new(fixed_data_gateway: fixed_data_gateway)
+
+      response = view_fixed_data.rc_uplift('2014-15')
+      expect(response).to eq(0.002)
+    end
   end
 end

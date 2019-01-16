@@ -56,31 +56,54 @@ describe FixedDataGateway do
     expect(data[1][:rc_uplift]).to eq(expected_data[1][:rc_uplift])
   end
 
-  context 'specific year' do
-    it 'can save and retrieve a record' do
-      fixed_data = {
-        year: '2010-2011',
+  it 'can save fixed data and then retrieve a record for a given year' do
+    fixed_data = {
+      year: '2010-2011',
+      cpi: nil,
+      real: nil,
+      fr_uplift: nil,
+      rc_factor: nil,
+      rc_uplift: 0.0002
+    }
+    fixed_data_gateway.save(fixed_data)
+    data = fixed_data_gateway.find_by_year(fixed_data[:year])
+
+    expected_data = {
+      year: '2010-2011',
+      cpi: nil,
+      real: nil,
+      fr_uplift: nil,
+      rc_factor: nil,
+      rc_uplift: 0.0002
+    }
+
+    expect(data[:year]).to eq(expected_data[:year])
+    expect(data[:cpi]).to eq(expected_data[:cpi])
+    expect(data[:rc_uplift]).to eq(expected_data[:rc_uplift])
+  end
+  
+  it 'returns rc uplift for given year' do
+    fixed_data = [
+      {
+        year: '2011-12',
         cpi: nil,
         real: nil,
         fr_uplift: nil,
         rc_factor: nil,
-        rc_uplift: 0.0002
-      }
-      fixed_data_gateway.save(fixed_data)
-      data = fixed_data_gateway.find_by_year(fixed_data[:year])
-
-      expected_data = {
-        year: '2010-2011',
+        rc_uplift: 0.01
+      },
+      {
+        year: '2012-13',
         cpi: nil,
         real: nil,
         fr_uplift: nil,
         rc_factor: nil,
-        rc_uplift: 0.0002
+        rc_uplift: 0.0004
       }
+    ]
+    fixed_data.each { |data_row| fixed_data_gateway.save(data_row) }
 
-      expect(data[:year]).to eq(expected_data[:year])
-      expect(data[:cpi]).to eq(expected_data[:cpi])
-      expect(data[:rc_uplift]).to eq(expected_data[:rc_uplift])
-    end
+    rc_uplift = fixed_data_gateway.rc_uplift('2012-13')
+    expect(rc_uplift).to eq(0.0004)
   end
 end
