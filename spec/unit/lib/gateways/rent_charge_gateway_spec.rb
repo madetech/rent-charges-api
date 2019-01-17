@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-describe RentDetailGateway do
-  let(:rent_detail_gateway) { described_class.new }
-  let(:rent_detail) do
+describe RentChargeGateway do
+  let(:rent_charge_gateway) { described_class.new }
+  let(:rent_charge) do
     [
       {
         uprn: '123abc',
@@ -66,15 +66,15 @@ describe RentDetailGateway do
   end
 
   it 'can retrieve no items' do
-    data = rent_detail_gateway.all
+    data = rent_charge_gateway.all
     expect(data).to eq([])
   end
 
   it 'can retrieve all items' do
-    rent_detail.each { |data_row| rent_detail_gateway.save(data_row) }
-    data = rent_detail_gateway.all
+    rent_charge.each { |data_row| rent_charge_gateway.save(data_row) }
+    data = rent_charge_gateway.all
 
-    expected_data = rent_detail
+    expected_data = rent_charge
 
     expect(data.length).to eq(2)
     expect(data[0][:uprn]).to eq(expected_data[0][:uprn])
@@ -89,10 +89,10 @@ describe RentDetailGateway do
 
   context 'specific year' do
     it 'can save and retrieve a record' do
-      rent_detail.each { |data_row| rent_detail_gateway.save(data_row) }
-      data = rent_detail_gateway.find_by_year('2014-15')
+      rent_charge.each { |data_row| rent_charge_gateway.save(data_row) }
+      data = rent_charge_gateway.find_by_year('2014-15')
 
-      expected_data = rent_detail
+      expected_data = rent_charge
 
       expect(data[:uprn]).to eq(expected_data[0][:uprn])
       expect(data[:address]).to eq(expected_data[0][:address])
