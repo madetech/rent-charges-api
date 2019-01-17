@@ -14,19 +14,6 @@ RSpec.describe RentCharge, type: :model do
   it { should validate_presence_of(:formula_rent_prev_year) }
   it { should validate_presence_of(:rent_cap_prev_year) }
   it { should validate_presence_of(:current_rent_as_at_2407_of_prev_year) }
-  it { should validate_presence_of(:formula_rent_this_year) }
-  it { should validate_presence_of(:rent_cap_this_year) }
-  it { should validate_presence_of(:lower_of_formula_rent_or_cap) }
-  it { should validate_presence_of(:uprated_actual) }
-  it { should validate_presence_of(:cap_v_act_plus_2_pounds) }
-  it { should validate_presence_of(:act_minus_2_pounds) }
-  it { should validate_presence_of(:actual_rent_this_year) }
-  it { should validate_presence_of(:converged) }
-  it { should validate_presence_of(:difference_between_ar_and_fr) }
-  it { should validate_presence_of(:full_year_forecast) }
-  it { should validate_presence_of(:year_on_year_percentage_change) }
-  it { should validate_presence_of(:actual_rent_greater_than_rent_cap) }
-  it { should validate_presence_of(:actual_rent_greater_than_formula_rent) }
   it { should validate_presence_of(:year) }
 
 end
