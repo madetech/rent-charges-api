@@ -10,7 +10,7 @@ describe RentChargeGateway do
         address_2: 'fake town',
         comments: 'no comment',
         rr_count: 1,
-        property_type: 'property',
+        property_type: 0,
         base_data_bed_size: 2,
         bedroom_weight: 3,
         mra_archetype: 'archetype',
@@ -18,7 +18,8 @@ describe RentChargeGateway do
         formula_rent_prev_year: 95,
         rent_cap_prev_year: 125,
         current_rent_as_at_2407_of_prev_year: 112,
-        year: '2014-15'
+        year: 2014,
+        removed: true
       },
       {
         uprn: '456cde',
@@ -26,7 +27,7 @@ describe RentChargeGateway do
         address_2: 'fake city',
         comments: 'no comment',
         rr_count: 1,
-        property_type: 'property',
+        property_type: 0,
         base_data_bed_size: 4,
         bedroom_weight: 5,
         mra_archetype: 'archetype',
@@ -34,7 +35,8 @@ describe RentChargeGateway do
         formula_rent_prev_year: 95,
         rent_cap_prev_year: 125,
         current_rent_as_at_2407_of_prev_year: 112,
-        year: '2015-16'
+        year: 2015,
+        removed: true
       }
     ]
   end

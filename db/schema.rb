@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_17_135728) do
+ActiveRecord::Schema.define(version: 2019_01_17_144910) do
 
   create_table "fixed_data", force: :cascade do |t|
     t.string "year"
@@ -25,17 +25,17 @@ ActiveRecord::Schema.define(version: 2019_01_17_135728) do
     t.string "address_2"
     t.string "comments"
     t.decimal "rr_count"
-    t.string "property_type"
-    t.decimal "base_data_bed_size"
+    t.integer "property_type"
+    t.integer "base_data_bed_size"
     t.decimal "bedroom_weight"
     t.string "mra_archetype"
     t.decimal "jan_1999_asset_values"
     t.decimal "formula_rent_prev_year"
     t.decimal "rent_cap_prev_year"
-    t.decimal "current_rent_as_at_2407_of_prev_year"
+    t.decimal "current_rent_as_at_24_07_of_prev_year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "year"
+    t.integer "year"
     t.boolean "removed"
   end
 

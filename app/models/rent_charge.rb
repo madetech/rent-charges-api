@@ -1,4 +1,6 @@
 class RentCharge < ApplicationRecord
+  
+  enum property_type: [:Bungalow, :Flat, :Hostel, :House, :Maisonette]
 
   validates_presence_of :uprn
   validates_presence_of :address
@@ -13,5 +15,5 @@ class RentCharge < ApplicationRecord
   validates_presence_of :rent_cap_prev_year
   validates_presence_of :current_rent_as_at_2407_of_prev_year
   validates_presence_of :year
-
+  validates_presence_of :removed
 end
