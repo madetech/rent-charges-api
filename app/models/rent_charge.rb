@@ -11,9 +11,9 @@ class RentCharge < ApplicationRecord
   validates_presence_of :bedroom_weight
   validates_presence_of :mra_archetype
   validates_presence_of :jan_1999_asset_values
-  validates_presence_of :formula_rent_prev_year
-  validates_presence_of :rent_cap_prev_year
-  validates_presence_of :current_rent_as_at_2407_of_prev_year
+  validates_presence_of :formula_rent_this_year
+  validates_presence_of :rent_cap_this_year
+  validates_presence_of :uprated_actual
   validates_presence_of :year
   validates_presence_of :removed
 end

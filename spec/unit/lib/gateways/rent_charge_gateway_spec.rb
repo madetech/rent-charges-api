@@ -17,7 +17,6 @@ describe RentChargeGateway do
         jan_1999_asset_values: 100,
         formula_rent_prev_year: 95,
         rent_cap_prev_year: 125,
-        current_rent_as_at_2407_of_prev_year: 112,
         year: 2014,
         removed: true
       },
@@ -34,7 +33,6 @@ describe RentChargeGateway do
         jan_1999_asset_values: 100,
         formula_rent_prev_year: 95,
         rent_cap_prev_year: 125,
-        current_rent_as_at_2407_of_prev_year: 112,
         year: 2015,
         removed: true
       }
