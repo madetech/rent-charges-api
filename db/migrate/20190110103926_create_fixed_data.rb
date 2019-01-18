@@ -1,8 +1,10 @@
-class CreateRpiFixedData < ActiveRecord::Migration[5.2]
+# frozen_string_literal: true
+
+class CreateFixedData < ActiveRecord::Migration[5.2]
   def change
-    create_table :rpi_fixed_data do |t|
+    create_table :fixed_data do |t|
       t.string :year
-      t.decimal :rpi
+      t.decimal :cpi
       t.decimal :real
       t.decimal :fr_uplift
       t.decimal :rc_factor

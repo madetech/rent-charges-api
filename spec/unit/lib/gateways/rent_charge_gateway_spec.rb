@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-describe RentDetailGateway do
-  let(:rent_detail_gateway) { described_class.new }
-  let(:rent_detail) do
+describe RentChargeGateway do
+  let(:rent_charge_gateway) { described_class.new }
+  let(:rent_charge) do
     [
       {
         uprn: '123abc',
@@ -10,28 +10,15 @@ describe RentDetailGateway do
         address_2: 'fake town',
         comments: 'no comment',
         rr_count: 1,
-        property_type: 'property',
+        property_type: 0,
         base_data_bed_size: 2,
         bedroom_weight: 3,
         mra_archetype: 'archetype',
         jan_1999_asset_values: 100,
         formula_rent_prev_year: 95,
         rent_cap_prev_year: 125,
-        current_rent_as_at_2407_of_prev_year: 112,
-        formula_rent_this_year: 115,
-        rent_cap_this_year: 130,
-        lower_of_formula_rent_or_cap: 115,
-        uprated_actual: 0.05,
-        cap_v_act_plus_2_pounds: 123,
-        act_minus_2_pounds: 121,
-        actual_rent_this_year: 105,
-        converged: 'yes',
-        difference_between_ar_and_fr: 100,
-        full_year_forecast: 7000,
-        year_on_year_percentage_change: 1,
-        actual_rent_greater_than_rent_cap: 'no',
-        actual_rent_greater_than_formula_rent: 'no',
-        year: '2014-15'
+        year: 2014,
+        removed: true
       },
       {
         uprn: '456cde',
@@ -39,42 +26,29 @@ describe RentDetailGateway do
         address_2: 'fake city',
         comments: 'no comment',
         rr_count: 1,
-        property_type: 'property',
+        property_type: 0,
         base_data_bed_size: 4,
         bedroom_weight: 5,
         mra_archetype: 'archetype',
         jan_1999_asset_values: 100,
         formula_rent_prev_year: 95,
         rent_cap_prev_year: 125,
-        current_rent_as_at_2407_of_prev_year: 112,
-        formula_rent_this_year: 115,
-        rent_cap_this_year: 130,
-        lower_of_formula_rent_or_cap: 115,
-        uprated_actual: 0.05,
-        cap_v_act_plus_2_pounds: 123,
-        act_minus_2_pounds: 121,
-        actual_rent_this_year: 105,
-        converged: 'yes',
-        difference_between_ar_and_fr: 100,
-        full_year_forecast: 7000,
-        year_on_year_percentage_change: 1,
-        actual_rent_greater_than_rent_cap: 'no',
-        actual_rent_greater_than_formula_rent: 'no',
-        year: '2015-16'
+        year: 2015,
+        removed: true
       }
     ]
   end
 
   it 'can retrieve no items' do
-    data = rent_detail_gateway.all
+    data = rent_charge_gateway.all
     expect(data).to eq([])
   end
 
   it 'can retrieve all items' do
-    rent_detail.each { |data_row| rent_detail_gateway.save(data_row) }
-    data = rent_detail_gateway.all
+    rent_charge.each { |data_row| rent_charge_gateway.save(data_row) }
+    data = rent_charge_gateway.all
 
-    expected_data = rent_detail
+    expected_data = rent_charge
 
     expect(data.length).to eq(2)
     expect(data[0][:uprn]).to eq(expected_data[0][:uprn])
@@ -89,10 +63,10 @@ describe RentDetailGateway do
 
   context 'specific year' do
     it 'can save and retrieve a record' do
-      rent_detail.each { |data_row| rent_detail_gateway.save(data_row) }
-      data = rent_detail_gateway.find_by_year('2014-15')
+      rent_charge.each { |data_row| rent_charge_gateway.save(data_row) }
+      data = rent_charge_gateway.find_by_year('2014-15')
 
-      expected_data = rent_detail
+      expected_data = rent_charge
 
       expect(data[:uprn]).to eq(expected_data[0][:uprn])
       expect(data[:address]).to eq(expected_data[0][:address])
