@@ -12,6 +12,17 @@
 
 ActiveRecord::Schema.define(version: 2019_01_21_102609) do
 
+  create_table "cpi_fixed_data", force: :cascade do |t|
+    t.string "year"
+    t.decimal "cpi"
+    t.decimal "real"
+    t.decimal "fr_uplift"
+    t.decimal "rc_factor"
+    t.decimal "rc_uplift"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "fixed_data", force: :cascade do |t|
     t.integer "year"
     t.decimal "rc_uplift"

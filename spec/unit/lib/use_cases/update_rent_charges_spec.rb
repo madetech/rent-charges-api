@@ -30,9 +30,9 @@ describe UpdateRentDetails do
       jan_1999_asset_values: 50000,
       current_rent_as_at_2407_of_prev_year: 120,
       year: 2014,
-      formula_rent_this_year: 140,
-      rent_cap_this_year: 150,
-      uprated_actual: 130
+      formula_rent_this_year: 105,
+      rent_cap_this_year: 162,
+      uprated_actual: 147
     }
   ]}
 
@@ -82,9 +82,9 @@ describe UpdateRentDetails do
       expect(rent_details[1][:mra_archetype]).to eq('archetype 2')
       expect(rent_details[1][:jan_1999_asset_values]).to eq(50000)
       expect(rent_details[1][:year]).to eq(2015)
-      expect(rent_details[0][:formula_rent_this_year]).to eq(138.6)
-      expect(rent_details[0][:rent_cap_this_year]).to eq(148.5)
-      expect(rent_details[0][:uprated_actual]).to eq(128.7)
+      expect(rent_details[1][:formula_rent_this_year]).to eq(103.95)
+      expect(rent_details[1][:rent_cap_this_year]).to eq(160.38)
+      expect(rent_details[1][:uprated_actual]).to eq(145.53)
     end
   end
 end

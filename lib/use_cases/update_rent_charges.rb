@@ -31,6 +31,7 @@ class UpdateRentDetails
         mra_archetype: rent_detail[:mra_archetype],
         jan_1999_asset_values: rent_detail[:jan_1999_asset_values],
         year: rent_detail[:year] + 1,
+        removed: rent_detail[:year],
         formula_rent_this_year: calc_formula_rent_this_year(rent_detail[:formula_rent_this_year]),
         rent_cap_this_year: calc_rent_cap_this_year(rent_detail[:rent_cap_this_year]),
         uprated_actual: calc_uprated_actual_rent(rent_detail[:uprated_actual])
