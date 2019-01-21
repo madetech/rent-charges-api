@@ -4,16 +4,13 @@ require 'rails_helper'
 
 RSpec.describe 'RentCharges API', type: :request do
   describe 'POST /rent-charges' do
-    # let!(:rent_details) { create_list(:rent_charge, 10) }
-    # let(:rent_details_row) { rent_details.first }
-    let(:rent_detail_gateway) { RentDetailGateway.new }
+    let(:rent_charges_gateway) { RentChargesGateway.new }
     let(:fixed_data_gateway) { FixedDataGateway.new }
-
+    let(:update_rent_charges) { UpdateRentCharges.new }
 
     let(:valid_attributes) { { rc_uplift: '-0.01', year: '2014' } }
-    let(:update_rent_details) { UpdateRentDetails.new }
 
-    let(:rent_details) { [
+    let(:rent_charges) { [
       { 
         uprn: '123abc',
         address: '1 fake street',
@@ -68,27 +65,27 @@ RSpec.describe 'RentCharges API', type: :request do
     ]}
 
     before do
-      rent_detail_gateway.save(rent_details)
+      rent_charges_gateway.save(rent_charges)
       post '/rent-charges', params: valid_attributes
     end
 
-    it 'creates rent details' do
+    it 'creates rent charges for new year' do
       expect(json['year']).to eq('2014')
       expect(json['rc_uplift']).to eq('-0.01')
 
-      expect(rent_detail_gateway.all(2014).count).to eq(2)
+      expect(rent_charges_gateway.all(2014).count).to eq(2)
 
-      expect(rent_detail_gateway.all(2014).first.uprn).to eq(rent_details.first[:uprn])
-      expect(rent_detail_gateway.all(2014).first.formula_rent_this_year).to eq(168.3)
-      expect(rent_detail_gateway.all(2014).first.rent_cap_this_year).to eq(178.2)
-      expect(rent_detail_gateway.all(2014).first.uprated_actual).to eq(128.7)
-      expect(rent_detail_gateway.all(2014).first.year).to eq(2014)
+      expect(rent_charges_gateway.all(2014).first.uprn).to eq(rent_charges.first[:uprn])
+      expect(rent_charges_gateway.all(2014).first.formula_rent_this_year).to eq(168.3)
+      expect(rent_charges_gateway.all(2014).first.rent_cap_this_year).to eq(178.2)
+      expect(rent_charges_gateway.all(2014).first.uprated_actual).to eq(128.7)
+      expect(rent_charges_gateway.all(2014).first.year).to eq(2014)
 
-      expect(rent_detail_gateway.all(2014).second.uprn).to eq(rent_details.third[:uprn])
-      expect(rent_detail_gateway.all(2014).second.formula_rent_this_year).to eq(123.75)
-      expect(rent_detail_gateway.all(2014).second.rent_cap_this_year).to eq(138.6)
-      expect(rent_detail_gateway.all(2014).second.uprated_actual).to eq(188.1)
-      expect(rent_detail_gateway.all(2014).second.year).to eq(2014)
+      expect(rent_charges_gateway.all(2014).second.uprn).to eq(rent_charges.third[:uprn])
+      expect(rent_charges_gateway.all(2014).second.formula_rent_this_year).to eq(123.75)
+      expect(rent_charges_gateway.all(2014).second.rent_cap_this_year).to eq(138.6)
+      expect(rent_charges_gateway.all(2014).second.uprated_actual).to eq(188.1)
+      expect(rent_charges_gateway.all(2014).second.year).to eq(2014)
     end
 
     it 'saves fixed data row' do

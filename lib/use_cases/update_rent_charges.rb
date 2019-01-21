@@ -1,7 +1,7 @@
-class UpdateRentDetails
-  def initialize(fixed_data_gateway:, rent_detail_gateway:)
+class UpdateRentCharges
+  def initialize(fixed_data_gateway:, rent_charges_gateway:)
     @fixed_data_gateway = fixed_data_gateway
-    @rent_detail_gateway = rent_detail_gateway
+    @rent_charges_gateway = rent_charges_gateway
   end
 
   def execute(fixed_data)
@@ -9,32 +9,32 @@ class UpdateRentDetails
     @rc_uplift = @fixed_data[:rc_uplift].to_f
     @year = @fixed_data[:year].to_i
     @fixed_data_gateway.save(@fixed_data)
-    @rent_detail_gateway.save(rent_details)
+    @rent_charges_gateway.save(rent_charges)
 
     { successful: true }
   end
 
   private
 
-  def rent_details
-    rent_details_for_given_year = @rent_detail_gateway.all(@year - 1)
-    rent_details_for_given_year.map do |rent_detail|
+  def rent_charges
+    rent_charges_for_given_year = @rent_charges_gateway.all(@year - 1)
+    rent_charges_for_given_year.map do |rent_charge|
       { 
-        uprn: rent_detail[:uprn],
-        address: rent_detail[:address],
-        address_2: rent_detail[:address_2],
-        comments: rent_detail[:comments],
-        rr_count: rent_detail[:rr_count],
-        property_type: rent_detail[:property_type],
-        base_data_bed_size: rent_detail[:base_data_bed_size],
-        bedroom_weight: rent_detail[:bedroom_weight],
-        mra_archetype: rent_detail[:mra_archetype],
-        jan_1999_asset_values: rent_detail[:jan_1999_asset_values],
-        year: rent_detail[:year] + 1,
-        removed: rent_detail[:year],
-        formula_rent_this_year: calc_formula_rent_this_year(rent_detail[:formula_rent_this_year]),
-        rent_cap_this_year: calc_rent_cap_this_year(rent_detail[:rent_cap_this_year]),
-        uprated_actual: calc_uprated_actual_rent(rent_detail[:uprated_actual])
+        uprn: rent_charge[:uprn],
+        address: rent_charge[:address],
+        address_2: rent_charge[:address_2],
+        comments: rent_charge[:comments],
+        rr_count: rent_charge[:rr_count],
+        property_type: rent_charge[:property_type],
+        base_data_bed_size: rent_charge[:base_data_bed_size],
+        bedroom_weight: rent_charge[:bedroom_weight],
+        mra_archetype: rent_charge[:mra_archetype],
+        jan_1999_asset_values: rent_charge[:jan_1999_asset_values],
+        year: rent_charge[:year] + 1,
+        removed: rent_charge[:year],
+        formula_rent_this_year: calc_formula_rent_this_year(rent_charge[:formula_rent_this_year]),
+        rent_cap_this_year: calc_rent_cap_this_year(rent_charge[:rent_cap_this_year]),
+        uprated_actual: calc_uprated_actual_rent(rent_charge[:uprated_actual])
       }
     end
   end
