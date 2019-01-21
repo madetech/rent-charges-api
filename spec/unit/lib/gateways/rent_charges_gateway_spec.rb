@@ -13,7 +13,7 @@ describe RentChargesGateway do
       mra_archetype: 'archetype 1',
       jan_1999_asset_values: 45000,
       year: 2014,
-      removed: :False,
+      removed: :false,
       formula_rent_this_year: 170,
       rent_cap_this_year: 180,
       uprated_actual: 130
@@ -30,7 +30,7 @@ describe RentChargesGateway do
       mra_archetype: 'archetype 2',
       jan_1999_asset_values: 50000,
       year: 2014,
-      removed: :False,
+      removed: :false,
       formula_rent_this_year: 160,
       rent_cap_this_year: 120,
       uprated_actual: 110
@@ -40,6 +40,7 @@ describe RentChargesGateway do
   it 'creates new rows for the new year' do
     rent_charges_gateway.save(rent_charges_for_given_year)
     rent_charges = rent_charges_gateway.all(2014)
+    
     expect(rent_charges[0][:uprn]).to eq('123abc')
     expect(rent_charges[0][:address]).to eq('1 fake street')
     expect(rent_charges[0][:address_2]).to eq('fake town')
