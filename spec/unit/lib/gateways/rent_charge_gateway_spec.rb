@@ -7,12 +7,13 @@ describe RentDetailGateway do
       address_2: 'fake town',
       comments: 'comment 1',
       rr_count: 1,
-      property_type: 'property type 1',
+      property_type: :Flat,
       base_data_bed_size: 2,
       bedroom_weight: 1,
       mra_archetype: 'archetype 1',
       jan_1999_asset_values: 45000,
       year: 2014,
+      removed: :False,
       formula_rent_this_year: 170,
       rent_cap_this_year: 180,
       uprated_actual: 130
@@ -23,21 +24,23 @@ describe RentDetailGateway do
       address_2: 'fake city',
       comments: 'comment 2',
       rr_count: 1,
-      property_type: 'property type 2',
+      property_type: :Flat,
       base_data_bed_size: 3,
       bedroom_weight: 2,
       mra_archetype: 'archetype 2',
       jan_1999_asset_values: 50000,
       year: 2014,
+      removed: :False,
       formula_rent_this_year: 170,
       rent_cap_this_year: 180,
       uprated_actual: 130
     }
   ]}
 
-  xit 'creates new rows for the new year' do
+  it 'creates new rows for the new year' do
     rent_detail_gateway.save(rent_details_for_given_year)
     rent_details = rent_detail_gateway.all(2014)
     expect(rent_details[0][:uprn]).to eq('123abc')
+    expect(rent_details[1][:uprn]).to eq('456def')
   end
 end
