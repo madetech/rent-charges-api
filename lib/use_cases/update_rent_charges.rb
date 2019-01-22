@@ -9,27 +9,6 @@ class UpdateRentCharges
 
     return { successful: false, errors: errors } unless errors.empty?
   
-    rent_charges_for_given_year = @rent_charges_gateway.all((fixed_data[:year].to_i) - 1)
-    @rent_charges_for_given_year = rent_charges_for_given_year.map do |rent_charge|
-      Domain::RentCharge.new(
-        uprn: rent_charge[:uprn],
-        address: rent_charge[:address],
-        address_2: rent_charge[:address_2],
-        comments: rent_charge[:comments],
-        rr_count: rent_charge[:rr_count],
-        property_type: rent_charge[:property_type],
-        base_data_bed_size: rent_charge[:base_data_bed_size],
-        bedroom_weight: rent_charge[:bedroom_weight],
-        mra_archetype: rent_charge[:mra_archetype],
-        jan_1999_asset_values: rent_charge[:jan_1999_asset_values],
-        year: rent_charge[:year],
-        removed: rent_charge[:removed],
-        formula_rent_this_year: rent_charge[:formula_rent_this_year],
-        rent_cap_this_year: rent_charge[:rent_cap_this_year],
-        uprated_actual: rent_charge[:uprated_actual]
-      )
-      end
-
     @fixed_data_gateway.save(fixed_data)
     @rent_charges_gateway.save(rent_charges(fixed_data))
 
@@ -39,7 +18,7 @@ class UpdateRentCharges
   private
 
   def rent_charges(fixed_data)
-    rent_charges = @rent_charges_for_given_year
+    rent_charges = @rent_charges_gateway.all((fixed_data[:year].to_i) - 1)
     rent_charges.map do |rent_charge|
       { 
         uprn: rent_charge.uprn,

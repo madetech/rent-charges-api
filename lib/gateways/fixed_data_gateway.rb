@@ -1,5 +1,6 @@
 class FixedDataGateway
   def save(fixed_data)
-    FixedDatum.create!(fixed_data)
+    Models::FixedDatum.create!(fixed_data)
+    nil
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RentCharge, type: :model do
+RSpec.describe Models::RentCharge, type: :model do
 
   it { should validate_presence_of(:uprn) }
   it { should validate_presence_of(:address) }

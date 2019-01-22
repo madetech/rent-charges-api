@@ -16,7 +16,7 @@ RSpec.describe 'RentCharges API', type: :request do
         address: Faker::Base.regexify(/[0-9]{1,2} [a-z]{5,10}/),
         address_2: Faker::Base.regexify(/[A-Z]{1}[a-z]{5,10}/),
         comments: Faker::Base.regexify(/[a-z ]{15}/),
-        rr_count: 1,
+        rr_count: Faker::Number.between(1, 3),
         property_type: 'Flat',
         base_data_bed_size: Faker::Number.between(1, 3),
         bedroom_weight: Faker::Number.between(0, 1),
@@ -33,7 +33,7 @@ RSpec.describe 'RentCharges API', type: :request do
         address: Faker::Base.regexify(/[0-9]{1,2} [a-z]{5,10}/),
         address_2: Faker::Base.regexify(/[A-Z]{1}[a-z]{5,10}/),
         comments: Faker::Base.regexify(/[a-z ]{15}/),
-        rr_count: 1,
+        rr_count: Faker::Number.between(1, 3),
         property_type: 'Flat',
         base_data_bed_size: Faker::Number.between(1, 3),
         bedroom_weight: Faker::Number.between(0, 1),
@@ -50,7 +50,7 @@ RSpec.describe 'RentCharges API', type: :request do
         address: Faker::Base.regexify(/[0-9]{1,2} [a-z]{5,10}/),
         address_2: Faker::Base.regexify(/[A-Z]{1}[a-z]{5,10}/),
         comments: Faker::Base.regexify(/[a-z ]{15}/),
-        rr_count: 1,
+        rr_count: Faker::Number.between(1, 3),
         property_type: 'Flat',
         base_data_bed_size: Faker::Number.between(1, 3),
         bedroom_weight: Faker::Number.between(0, 1),
@@ -109,8 +109,8 @@ RSpec.describe 'RentCharges API', type: :request do
       end
 
       it 'saves fixed data row' do
-        expect(FixedDatum.all.first[:year]).to eq(2014)
-        expect(FixedDatum.all.first[:rc_uplift]).to eq(-0.01)
+        expect(Models::FixedDatum.all.first[:year]).to eq(2014)
+        expect(Models::FixedDatum.all.first[:rc_uplift]).to eq(-0.01)
       end
 
       it 'returns status code 201' do

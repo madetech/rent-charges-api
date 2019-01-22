@@ -16,8 +16,8 @@ module Domain
                   :rent_cap_this_year,
                   :uprated_actual
     
-    def initialize(**rent_charges)
-      rent_charges.each do |key, value|
+    def initialize(**rent_charge)
+      rent_charge.each do |key, value|
         self.send("#{key}=", value)
       end
     end
