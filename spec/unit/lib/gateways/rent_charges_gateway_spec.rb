@@ -72,6 +72,7 @@ describe RentChargesGateway do
     expect(rent_charges[1].uprated_actual).to eq(110)
   end
 
+  let(:year) { Faker::Number.between(2000, 2050) }
   let(:rent_charges_for_different_year) { [
     { 
       uprn: Faker::Base.regexify(/[0-9]{3}[a-z]{3}/),
@@ -84,7 +85,7 @@ describe RentChargesGateway do
       bedroom_weight: Faker::Number.between(0, 1),
       mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
       jan_1999_asset_values: Faker::Number.between(20000, 100000),
-      year: 2000,
+      year: year,
       removed: :false,
       formula_rent_this_year: Faker::Number.between(100, 200),
       rent_cap_this_year: Faker::Number.between(100, 200),
@@ -94,7 +95,7 @@ describe RentChargesGateway do
 
   it 'creates new rows for different year' do
     rent_charges_gateway.save(rent_charges_for_different_year)
-    rent_charges = rent_charges_gateway.all(2000)
+    rent_charges = rent_charges_gateway.all(year)
 
     expect(rent_charges[0].uprn).to eq(rent_charges_for_different_year[0][:uprn])
     expect(rent_charges[0].address).to eq(rent_charges_for_different_year[0][:address])
@@ -106,7 +107,7 @@ describe RentChargesGateway do
     expect(rent_charges[0].bedroom_weight).to eq(rent_charges_for_different_year[0][:bedroom_weight])
     expect(rent_charges[0].mra_archetype).to eq(rent_charges_for_different_year[0][:mra_archetype])
     expect(rent_charges[0].jan_1999_asset_values).to eq(rent_charges_for_different_year[0][:jan_1999_asset_values])
-    expect(rent_charges[0].year).to eq(2000)
+    expect(rent_charges[0].year).to eq(rent_charges_for_different_year[0][:year])
     expect(rent_charges[0].formula_rent_this_year).to eq(rent_charges_for_different_year[0][:formula_rent_this_year])
     expect(rent_charges[0].rent_cap_this_year).to eq(rent_charges_for_different_year[0][:rent_cap_this_year])
     expect(rent_charges[0].uprated_actual).to eq(rent_charges_for_different_year[0][:uprated_actual])

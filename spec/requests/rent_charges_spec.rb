@@ -8,7 +8,8 @@ RSpec.describe 'RentCharges API', type: :request do
     let(:fixed_data_gateway) { FixedDataGateway.new }
     let(:update_rent_charges) { UpdateRentCharges.new }
 
-    let(:valid_attributes) { { rc_uplift: '-0.01', year: '2014' } }
+    let(:year) { Faker::Number.between(2000, 2050) }
+    let(:valid_attributes) { { rc_uplift: '-0.01', year: year + 1} }
 
     let(:rent_charges) { [
       { 
@@ -22,7 +23,7 @@ RSpec.describe 'RentCharges API', type: :request do
         bedroom_weight: Faker::Number.between(0, 1),
         mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
         jan_1999_asset_values: Faker::Number.between(20000, 100000),
-        year: 2013,
+        year: year,
         removed: :false,
         formula_rent_this_year: Faker::Number.between(100, 200),
         rent_cap_this_year: Faker::Number.between(100, 200),
@@ -39,7 +40,7 @@ RSpec.describe 'RentCharges API', type: :request do
         bedroom_weight: Faker::Number.between(0, 1),
         mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
         jan_1999_asset_values: Faker::Number.between(20000, 100000),
-        year: 2000,
+        year: year - 23,
         removed: :false,
         formula_rent_this_year: Faker::Number.between(100, 200),
         rent_cap_this_year: Faker::Number.between(100, 200),
@@ -56,7 +57,7 @@ RSpec.describe 'RentCharges API', type: :request do
         bedroom_weight: Faker::Number.between(0, 1),
         mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
         jan_1999_asset_values: Faker::Number.between(20000, 100000),
-        year: 2013,
+        year: year,
         removed: :false,
         formula_rent_this_year: Faker::Number.between(100, 200),
         rent_cap_this_year: Faker::Number.between(100, 200),
@@ -72,44 +73,44 @@ RSpec.describe 'RentCharges API', type: :request do
       end
 
       it 'creates rent charges for new year' do
-        expect(json_response['year']).to eq('2014')
+        expect(json_response['year']).to eq((rent_charges.first[:year] + 1).to_s )
         expect(json_response['rc_uplift']).to eq('-0.01')
 
-        expect(rent_charges_gateway.all(2014).count).to eq(2)
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).count).to eq(2)
 
-        expect(rent_charges_gateway.all(2014).first.uprn).to eq(rent_charges.first[:uprn])
-        expect(rent_charges_gateway.all(2014).first.address).to eq(rent_charges.first[:address])
-        expect(rent_charges_gateway.all(2014).first.address_2).to eq(rent_charges.first[:address_2])
-        expect(rent_charges_gateway.all(2014).first.comments).to eq(rent_charges.first[:comments])
-        expect(rent_charges_gateway.all(2014).first.rr_count).to eq(rent_charges.first[:rr_count])
-        expect(rent_charges_gateway.all(2014).first.property_type).to eq(rent_charges.first[:property_type])
-        expect(rent_charges_gateway.all(2014).first.base_data_bed_size).to eq(rent_charges.first[:base_data_bed_size])
-        expect(rent_charges_gateway.all(2014).first.bedroom_weight).to eq(rent_charges.first[:bedroom_weight])
-        expect(rent_charges_gateway.all(2014).first.mra_archetype).to eq(rent_charges.first[:mra_archetype])
-        expect(rent_charges_gateway.all(2014).first.jan_1999_asset_values).to eq(rent_charges.first[:jan_1999_asset_values])
-        expect(rent_charges_gateway.all(2014).first.year).to eq(rent_charges.first[:year] + 1)
-        expect(rent_charges_gateway.all(2014).first.formula_rent_this_year).to eq((rent_charges.first[:formula_rent_this_year] * 0.99).round(2))
-        expect(rent_charges_gateway.all(2014).first.rent_cap_this_year).to eq((rent_charges.first[:rent_cap_this_year] * 0.99).round(2))
-        expect(rent_charges_gateway.all(2014).first.uprated_actual).to eq((rent_charges.first[:uprated_actual] * 0.99).round(2))
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.uprn).to eq(rent_charges.first[:uprn])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.address).to eq(rent_charges.first[:address])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.address_2).to eq(rent_charges.first[:address_2])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.comments).to eq(rent_charges.first[:comments])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.rr_count).to eq(rent_charges.first[:rr_count])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.property_type).to eq(rent_charges.first[:property_type])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.base_data_bed_size).to eq(rent_charges.first[:base_data_bed_size])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.bedroom_weight).to eq(rent_charges.first[:bedroom_weight])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.mra_archetype).to eq(rent_charges.first[:mra_archetype])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.jan_1999_asset_values).to eq(rent_charges.first[:jan_1999_asset_values])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.year).to eq(rent_charges.first[:year] + 1)
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.formula_rent_this_year).to eq((rent_charges.first[:formula_rent_this_year] * 0.99).round(2))
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.rent_cap_this_year).to eq((rent_charges.first[:rent_cap_this_year] * 0.99).round(2))
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).first.uprated_actual).to eq((rent_charges.first[:uprated_actual] * 0.99).round(2))
 
-        expect(rent_charges_gateway.all(2014).second.uprn).to eq(rent_charges.third[:uprn])
-        expect(rent_charges_gateway.all(2014).second.address).to eq(rent_charges.third[:address])
-        expect(rent_charges_gateway.all(2014).second.address_2).to eq(rent_charges.third[:address_2])
-        expect(rent_charges_gateway.all(2014).second.comments).to eq(rent_charges.third[:comments])
-        expect(rent_charges_gateway.all(2014).second.rr_count).to eq(rent_charges.third[:rr_count])
-        expect(rent_charges_gateway.all(2014).second.property_type).to eq(rent_charges.third[:property_type])
-        expect(rent_charges_gateway.all(2014).second.base_data_bed_size).to eq(rent_charges.third[:base_data_bed_size])
-        expect(rent_charges_gateway.all(2014).second.bedroom_weight).to eq(rent_charges.third[:bedroom_weight])
-        expect(rent_charges_gateway.all(2014).second.mra_archetype).to eq(rent_charges.third[:mra_archetype])
-        expect(rent_charges_gateway.all(2014).second.jan_1999_asset_values).to eq(rent_charges.third[:jan_1999_asset_values])
-        expect(rent_charges_gateway.all(2014).second.year).to eq(rent_charges.first[:year] + 1)
-        expect(rent_charges_gateway.all(2014).second.formula_rent_this_year).to eq((rent_charges.third[:formula_rent_this_year] * 0.99).round(2))
-        expect(rent_charges_gateway.all(2014).second.rent_cap_this_year).to eq((rent_charges.third[:rent_cap_this_year] * 0.99).round(2))
-        expect(rent_charges_gateway.all(2014).second.uprated_actual).to eq((rent_charges.third[:uprated_actual] * 0.99).round(2))
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.uprn).to eq(rent_charges.third[:uprn])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.address).to eq(rent_charges.third[:address])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.address_2).to eq(rent_charges.third[:address_2])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.comments).to eq(rent_charges.third[:comments])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.rr_count).to eq(rent_charges.third[:rr_count])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.property_type).to eq(rent_charges.third[:property_type])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.base_data_bed_size).to eq(rent_charges.third[:base_data_bed_size])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.bedroom_weight).to eq(rent_charges.third[:bedroom_weight])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.mra_archetype).to eq(rent_charges.third[:mra_archetype])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.jan_1999_asset_values).to eq(rent_charges.third[:jan_1999_asset_values])
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.year).to eq(rent_charges.first[:year] + 1)
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.formula_rent_this_year).to eq((rent_charges.third[:formula_rent_this_year] * 0.99).round(2))
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.rent_cap_this_year).to eq((rent_charges.third[:rent_cap_this_year] * 0.99).round(2))
+        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).second.uprated_actual).to eq((rent_charges.third[:uprated_actual] * 0.99).round(2))
       end
 
       it 'saves fixed data row' do
-        expect(Models::FixedDatum.all.first[:year]).to eq(2014)
+        expect(Models::FixedDatum.all.first[:year]).to eq(rent_charges.first[:year] + 1)
         expect(Models::FixedDatum.all.first[:rc_uplift]).to eq(-0.01)
       end
 
