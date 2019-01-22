@@ -12,55 +12,55 @@ RSpec.describe 'RentCharges API', type: :request do
 
     let(:rent_charges) { [
       { 
-        uprn: '123abc',
-        address: '1 fake street',
-        address_2: 'fake town',
-        comments: 'comment 1',
+        uprn: Faker::Base.regexify(/[0-9]{3}[a-z]{3}/),
+        address: Faker::Base.regexify(/[0-9]{1,2} [a-z]{5,10}/),
+        address_2: Faker::Base.regexify(/[A-Z]{1}[a-z]{5,10}/),
+        comments: Faker::Base.regexify(/[a-z ]{15}/),
         rr_count: 1,
         property_type: 'Flat',
-        base_data_bed_size: 2,
-        bedroom_weight: 1,
-        mra_archetype: 'archetype 1',
-        jan_1999_asset_values: 45000,
+        base_data_bed_size: Faker::Number.between(1, 3),
+        bedroom_weight: Faker::Number.between(0, 1),
+        mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
+        jan_1999_asset_values: Faker::Number.between(20000, 100000),
         year: 2013,
-        removed: :False,
-        formula_rent_this_year: 170,
-        rent_cap_this_year: 180,
-        uprated_actual: 130
+        removed: :false,
+        formula_rent_this_year: Faker::Number.between(100, 200),
+        rent_cap_this_year: Faker::Number.between(100, 200),
+        uprated_actual: Faker::Number.between(100, 200)
       },
       { 
-        uprn: '456def',
-        address: '2 fake street',
-        address_2: 'fake city',
-        comments: 'comment 2',
+        uprn: Faker::Base.regexify(/[0-9]{3}[a-z]{3}/),
+        address: Faker::Base.regexify(/[0-9]{1,2} [a-z]{5,10}/),
+        address_2: Faker::Base.regexify(/[A-Z]{1}[a-z]{5,10}/),
+        comments: Faker::Base.regexify(/[a-z ]{15}/),
         rr_count: 1,
-        property_type: 'House',
-        base_data_bed_size: 3,
-        bedroom_weight: 2,
-        mra_archetype: 'archetype 2',
-        jan_1999_asset_values: 50000,
-        year: 2010,
-        removed: :False,
-        formula_rent_this_year: 160,
-        rent_cap_this_year: 120,
-        uprated_actual: 110
+        property_type: 'Flat',
+        base_data_bed_size: Faker::Number.between(1, 3),
+        bedroom_weight: Faker::Number.between(0, 1),
+        mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
+        jan_1999_asset_values: Faker::Number.between(20000, 100000),
+        year: 2000,
+        removed: :false,
+        formula_rent_this_year: Faker::Number.between(100, 200),
+        rent_cap_this_year: Faker::Number.between(100, 200),
+        uprated_actual: Faker::Number.between(100, 200)
       },
-      {
-        uprn: '789ghi',
-        address: '3 fake street',
-        address_2: 'fake village',
-        comments: 'comment 3',
+      { 
+        uprn: Faker::Base.regexify(/[0-9]{3}[a-z]{3}/),
+        address: Faker::Base.regexify(/[0-9]{1,2} [a-z]{5,10}/),
+        address_2: Faker::Base.regexify(/[A-Z]{1}[a-z]{5,10}/),
+        comments: Faker::Base.regexify(/[a-z ]{15}/),
         rr_count: 1,
-        property_type: 'House',
-        base_data_bed_size: 4,
-        bedroom_weight: 5,
-        mra_archetype: 'archetype 3',
-        jan_1999_asset_values: 60000,
+        property_type: 'Flat',
+        base_data_bed_size: Faker::Number.between(1, 3),
+        bedroom_weight: Faker::Number.between(0, 1),
+        mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
+        jan_1999_asset_values: Faker::Number.between(20000, 100000),
         year: 2013,
-        removed: :False,
-        formula_rent_this_year: 125,
-        rent_cap_this_year: 140,
-        uprated_actual: 190
+        removed: :false,
+        formula_rent_this_year: Faker::Number.between(100, 200),
+        rent_cap_this_year: Faker::Number.between(100, 200),
+        uprated_actual: Faker::Number.between(100, 200)
       }
     ]}
     
@@ -88,9 +88,9 @@ RSpec.describe 'RentCharges API', type: :request do
         expect(rent_charges_gateway.all(2014).first.mra_archetype).to eq(rent_charges.first[:mra_archetype])
         expect(rent_charges_gateway.all(2014).first.jan_1999_asset_values).to eq(rent_charges.first[:jan_1999_asset_values])
         expect(rent_charges_gateway.all(2014).first.year).to eq(rent_charges.first[:year] + 1)
-        expect(rent_charges_gateway.all(2014).first.formula_rent_this_year).to eq(168.3)
-        expect(rent_charges_gateway.all(2014).first.rent_cap_this_year).to eq(178.2)
-        expect(rent_charges_gateway.all(2014).first.uprated_actual).to eq(128.7)
+        expect(rent_charges_gateway.all(2014).first.formula_rent_this_year).to eq((rent_charges.first[:formula_rent_this_year] * 0.99).round(2))
+        expect(rent_charges_gateway.all(2014).first.rent_cap_this_year).to eq((rent_charges.first[:rent_cap_this_year] * 0.99).round(2))
+        expect(rent_charges_gateway.all(2014).first.uprated_actual).to eq((rent_charges.first[:uprated_actual] * 0.99).round(2))
 
         expect(rent_charges_gateway.all(2014).second.uprn).to eq(rent_charges.third[:uprn])
         expect(rent_charges_gateway.all(2014).second.address).to eq(rent_charges.third[:address])
@@ -103,9 +103,9 @@ RSpec.describe 'RentCharges API', type: :request do
         expect(rent_charges_gateway.all(2014).second.mra_archetype).to eq(rent_charges.third[:mra_archetype])
         expect(rent_charges_gateway.all(2014).second.jan_1999_asset_values).to eq(rent_charges.third[:jan_1999_asset_values])
         expect(rent_charges_gateway.all(2014).second.year).to eq(rent_charges.first[:year] + 1)
-        expect(rent_charges_gateway.all(2014).second.formula_rent_this_year).to eq(123.75)
-        expect(rent_charges_gateway.all(2014).second.rent_cap_this_year).to eq(138.6)
-        expect(rent_charges_gateway.all(2014).second.uprated_actual).to eq(188.1)
+        expect(rent_charges_gateway.all(2014).second.formula_rent_this_year).to eq((rent_charges.third[:formula_rent_this_year] * 0.99).round(2))
+        expect(rent_charges_gateway.all(2014).second.rent_cap_this_year).to eq((rent_charges.third[:rent_cap_this_year] * 0.99).round(2))
+        expect(rent_charges_gateway.all(2014).second.uprated_actual).to eq((rent_charges.third[:uprated_actual] * 0.99).round(2))
       end
 
       it 'saves fixed data row' do
