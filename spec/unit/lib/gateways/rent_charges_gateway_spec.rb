@@ -40,7 +40,7 @@ describe RentChargesGateway do
   it 'creates new rows for the new year' do
     rent_charges_gateway.save(rent_charges_for_given_year)
     rent_charges = rent_charges_gateway.all(2014)
-    
+
     expect(rent_charges[0][:uprn]).to eq('123abc')
     expect(rent_charges[0][:address]).to eq('1 fake street')
     expect(rent_charges[0][:address_2]).to eq('fake town')
@@ -70,5 +70,45 @@ describe RentChargesGateway do
     expect(rent_charges[1][:formula_rent_this_year]).to eq(160)
     expect(rent_charges[1][:rent_cap_this_year]).to eq(120)
     expect(rent_charges[1][:uprated_actual]).to eq(110)
+  end
+
+  let(:rent_charges_for_different_year) { [
+    { 
+      uprn: Faker::Base.regexify(/[0-9]{3}[a-z]{3}/),
+      address: Faker::Base.regexify(/[0-9]{1,2} [a-z]{5,10}/),
+      address_2: Faker::Base.regexify(/[A-Z]{1}[a-z]{5,10}/),
+      comments: Faker::Base.regexify(/[a-z ]{15}/),
+      rr_count: 1,
+      property_type: 'Flat',
+      base_data_bed_size: Faker::Number.between(1, 3),
+      bedroom_weight: Faker::Number.between(0, 1),
+      mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
+      jan_1999_asset_values: Faker::Number.between(20000, 100000),
+      year: 2000,
+      removed: :false,
+      formula_rent_this_year: Faker::Number.between(100, 200),
+      rent_cap_this_year: Faker::Number.between(100, 200),
+      uprated_actual: Faker::Number.between(100, 200)
+    }
+  ]}
+
+  it 'creates new rows for different year' do
+    rent_charges_gateway.save(rent_charges_for_different_year)
+    rent_charges = rent_charges_gateway.all(2000)
+
+    expect(rent_charges[0][:uprn]).to eq(rent_charges_for_different_year[0][:uprn])
+    expect(rent_charges[0][:address]).to eq(rent_charges_for_different_year[0][:address])
+    expect(rent_charges[0][:address_2]).to eq(rent_charges_for_different_year[0][:address_2])
+    expect(rent_charges[0][:comments]).to eq(rent_charges_for_different_year[0][:comments])
+    expect(rent_charges[0][:rr_count]).to eq(1)
+    expect(rent_charges[0][:property_type]).to eq('Flat')
+    expect(rent_charges[0][:base_data_bed_size]).to eq(rent_charges_for_different_year[0][:base_data_bed_size])
+    expect(rent_charges[0][:bedroom_weight]).to eq(rent_charges_for_different_year[0][:bedroom_weight])
+    expect(rent_charges[0][:mra_archetype]).to eq(rent_charges_for_different_year[0][:mra_archetype])
+    expect(rent_charges[0][:jan_1999_asset_values]).to eq(rent_charges_for_different_year[0][:jan_1999_asset_values])
+    expect(rent_charges[0][:year]).to eq(2000)
+    expect(rent_charges[0][:formula_rent_this_year]).to eq(rent_charges_for_different_year[0][:formula_rent_this_year])
+    expect(rent_charges[0][:rent_cap_this_year]).to eq(rent_charges_for_different_year[0][:rent_cap_this_year])
+    expect(rent_charges[0][:uprated_actual]).to eq(rent_charges_for_different_year[0][:uprated_actual])
   end
 end

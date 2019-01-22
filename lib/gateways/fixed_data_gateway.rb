@@ -1,9 +1,5 @@
 class FixedDataGateway
   def save(fixed_data)
-    FixedDatum.create(fixed_data)
-  end
-
-  def all
-    FixedDatum.all
+    FixedDatum.create!(fixed_data)
   end
 end

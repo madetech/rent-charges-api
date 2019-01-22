@@ -1,7 +1,7 @@
 class RentChargesGateway
   def save(rent_charges)
     rent_charges.each do |rent_charge|
-      RentCharge.create(rent_charge)
+      RentCharge.create!(rent_charge)
     end
   end
 

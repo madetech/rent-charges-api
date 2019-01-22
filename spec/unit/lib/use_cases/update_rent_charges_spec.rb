@@ -1,38 +1,38 @@
 describe UpdateRentCharges do
   let(:rent_charges_for_given_year) { [
     { 
-      uprn: '123abc',
-      address: '1 fake street',
-      address_2: 'fake town',
-      comments: 'comment 1',
+      uprn: Faker::Base.regexify(/[0-9]{3}[a-z]{3}/),
+      address: Faker::Base.regexify(/[0-9]{1,2} [a-z]{5,10}/),
+      address_2: Faker::Base.regexify(/[A-Z]{1}[a-z]{5,10}/),
+      comments: Faker::Base.regexify(/[a-z ]{15}/),
       rr_count: 1,
-      property_type: 'property type 1',
-      base_data_bed_size: 2,
-      bedroom_weight: 1,
-      mra_archetype: 'archetype 1',
-      jan_1999_asset_values: 45000,
-      current_rent_as_at_2407_of_prev_year: 120,
-      year: 2014,
-      formula_rent_this_year: 140,
-      rent_cap_this_year: 150,
-      uprated_actual: 130
+      property_type: Faker::Number.between(0, 4),
+      base_data_bed_size: Faker::Number.between(1, 3),
+      bedroom_weight: Faker::Number.between(0.1, 1),
+      mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
+      jan_1999_asset_values: Faker::Number.between(20000, 100000),
+      year: 2015,
+      removed: :false,
+      formula_rent_this_year: Faker::Number.between(100, 200),
+      rent_cap_this_year: Faker::Number.between(100, 200),
+      uprated_actual: Faker::Number.between(100, 200)
     },
     { 
-      uprn: '456def',
-      address: '2 fake street',
-      address_2: 'fake city',
-      comments: 'comment 2',
+      uprn: Faker::Base.regexify(/[0-9]{3}[a-z]{3}/),
+      address: Faker::Base.regexify(/[0-9]{1,2} [a-z]{5,10}/),
+      address_2: Faker::Base.regexify(/[A-Z]{1}[a-z]{5,10}/),
+      comments: Faker::Base.regexify(/[a-z ]{15}/),
       rr_count: 1,
-      property_type: 'property type 2',
-      base_data_bed_size: 3,
-      bedroom_weight: 2,
-      mra_archetype: 'archetype 2',
-      jan_1999_asset_values: 50000,
-      current_rent_as_at_2407_of_prev_year: 120,
-      year: 2014,
-      formula_rent_this_year: 105,
-      rent_cap_this_year: 162,
-      uprated_actual: 147
+      property_type: Faker::Number.between(0, 4),
+      base_data_bed_size: Faker::Number.between(1, 3),
+      bedroom_weight: Faker::Number.between(0.1, 1),
+      mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
+      jan_1999_asset_values: Faker::Number.between(20000, 100000),
+      year: 2015,
+      removed: :false,
+      formula_rent_this_year: Faker::Number.between(100, 200),
+      rent_cap_this_year: Faker::Number.between(100, 200),
+      uprated_actual: Faker::Number.between(100, 200)
     }
   ]}
 
@@ -45,46 +45,69 @@ describe UpdateRentCharges do
   )}
 
   it 'saves rc_uplift' do
-    update_rent_charges.execute({ year: 2015, rc_uplift: -0.01 })
-    expect(fixed_data_gateway).to have_received(:save) do |data|
-      expect(data[:year]).to eq(2015)
-      expect(data[:rc_uplift]).to eq(-0.01)
+    update_rent_charges.execute({ year: 2016, rc_uplift: -0.01 })
+    expect(fixed_data_gateway).to have_received(:save) do |fixed_data|
+      expect(fixed_data[:year]).to eq(2016)
+      expect(fixed_data[:rc_uplift]).to eq(-0.01)
     end
   end
 
   it 'updates rent charges for a given year' do
-    update_rent_charges.execute({ year: 2015, rc_uplift: -0.01 })
+    update_rent_charges.execute({ year: 2016, rc_uplift: -0.01 })
     expect(rent_charges_gateway).to have_received(:save) do |rent_charges|
-      expect(rent_charges[0][:uprn]).to eq('123abc')
-      expect(rent_charges[0][:address]).to eq('1 fake street')
-      expect(rent_charges[0][:address_2]).to eq('fake town')
-      expect(rent_charges[0][:comments]).to eq('comment 1')
+      expect(rent_charges[0][:uprn]).to eq(rent_charges_for_given_year[0][:uprn])
+      expect(rent_charges[0][:address]).to eq(rent_charges_for_given_year[0][:address])
+      expect(rent_charges[0][:address_2]).to eq(rent_charges_for_given_year[0][:address_2])
+      expect(rent_charges[0][:comments]).to eq(rent_charges_for_given_year[0][:comments])
       expect(rent_charges[0][:rr_count]).to eq(1)
-      expect(rent_charges[0][:property_type]).to eq('property type 1')
-      expect(rent_charges[0][:base_data_bed_size]).to eq(2)
-      expect(rent_charges[0][:bedroom_weight]).to eq(1)
-      expect(rent_charges[0][:mra_archetype]).to eq('archetype 1')
-      expect(rent_charges[0][:jan_1999_asset_values]).to eq(45000)
-      expect(rent_charges[0][:year]).to eq(2015)
-      expect(rent_charges[0][:formula_rent_this_year]).to eq(138.6)
-      expect(rent_charges[0][:rent_cap_this_year]).to eq(148.5)
-      expect(rent_charges[0][:uprated_actual]).to eq(128.7)
+      expect(rent_charges[0][:property_type]).to eq(rent_charges_for_given_year[0][:property_type])
+      expect(rent_charges[0][:base_data_bed_size]).to eq(rent_charges_for_given_year[0][:base_data_bed_size])
+      expect(rent_charges[0][:bedroom_weight]).to eq(rent_charges_for_given_year[0][:bedroom_weight])
+      expect(rent_charges[0][:mra_archetype]).to eq(rent_charges_for_given_year[0][:mra_archetype])
+      expect(rent_charges[0][:jan_1999_asset_values]).to eq(rent_charges_for_given_year[0][:jan_1999_asset_values])
+      expect(rent_charges[0][:year]).to eq(2016)
+      expect(rent_charges[0][:formula_rent_this_year]).to eq((rent_charges_for_given_year[0][:formula_rent_this_year] * 0.99).round(2))
+      expect(rent_charges[0][:rent_cap_this_year]).to eq((rent_charges_for_given_year[0][:rent_cap_this_year]. * 0.99).round(2))
+      expect(rent_charges[0][:uprated_actual]).to eq((rent_charges_for_given_year[0][:uprated_actual].round(2) * 0.99).round(2))
 
-
-      expect(rent_charges[1][:uprn]).to eq('456def')
-      expect(rent_charges[1][:address]).to eq('2 fake street')
-      expect(rent_charges[1][:address_2]).to eq('fake city')
-      expect(rent_charges[1][:comments]).to eq('comment 2')
+      expect(rent_charges[1][:uprn]).to eq(rent_charges_for_given_year[1][:uprn])
+      expect(rent_charges[1][:address]).to eq(rent_charges_for_given_year[1][:address])
+      expect(rent_charges[1][:address_2]).to eq(rent_charges_for_given_year[1][:address_2])
+      expect(rent_charges[1][:comments]).to eq(rent_charges_for_given_year[1][:comments])
       expect(rent_charges[1][:rr_count]).to eq(1)
-      expect(rent_charges[1][:property_type]).to eq('property type 2')
-      expect(rent_charges[1][:base_data_bed_size]).to eq(3)
-      expect(rent_charges[1][:bedroom_weight]).to eq(2)
-      expect(rent_charges[1][:mra_archetype]).to eq('archetype 2')
-      expect(rent_charges[1][:jan_1999_asset_values]).to eq(50000)
-      expect(rent_charges[1][:year]).to eq(2015)
-      expect(rent_charges[1][:formula_rent_this_year]).to eq(103.95)
-      expect(rent_charges[1][:rent_cap_this_year]).to eq(160.38)
-      expect(rent_charges[1][:uprated_actual]).to eq(145.53)
+      expect(rent_charges[1][:property_type]).to eq(rent_charges_for_given_year[1][:property_type])
+      expect(rent_charges[1][:base_data_bed_size]).to eq(rent_charges_for_given_year[1][:base_data_bed_size])
+      expect(rent_charges[1][:bedroom_weight]).to eq(rent_charges_for_given_year[1][:bedroom_weight])
+      expect(rent_charges[1][:mra_archetype]).to eq(rent_charges_for_given_year[1][:mra_archetype])
+      expect(rent_charges[1][:jan_1999_asset_values]).to eq(rent_charges_for_given_year[1][:jan_1999_asset_values])
+      expect(rent_charges[1][:year]).to eq(2016)
+      expect(rent_charges[1][:formula_rent_this_year]).to eq((rent_charges_for_given_year[1][:formula_rent_this_year] * 0.99).round(2))
+      expect(rent_charges[1][:rent_cap_this_year]).to eq((rent_charges_for_given_year[1][:rent_cap_this_year]. * 0.99).round(2))
+      expect(rent_charges[1][:uprated_actual]).to eq((rent_charges_for_given_year[1][:uprated_actual].round(2) * 0.99).round(2))
     end
+  end
+
+  it 'raises error when missing year' do
+    response = update_rent_charges.execute({ year: nil, rc_uplift: -0.01 })
+    expect(response).to eq(
+      successful: false,
+      errors: [:missing_year, :invalid_year]
+    )
+  end
+
+  it 'raises error when missing rc uplift' do
+    response = update_rent_charges.execute({ year: 2015, rc_uplift: nil })
+    expect(response).to eq(
+      successful: false,
+      errors: [:missing_rc_uplift, :invalid_rc_uplift]
+    )
+  end
+
+  it 'raises error when invalid year and rc uplift' do
+    response = update_rent_charges.execute({ year: 201, rc_uplift: 'abc' })
+    expect(response).to eq(
+      successful: false,
+      errors: [:invalid_year, :invalid_rc_uplift]
+    )
   end
 end

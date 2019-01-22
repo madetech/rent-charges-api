@@ -63,56 +63,77 @@ RSpec.describe 'RentCharges API', type: :request do
         uprated_actual: 190
       }
     ]}
+    
+    context 'valid attributes' do
 
-    before do
-      rent_charges_gateway.save(rent_charges)
-      post '/rent-charges', params: valid_attributes
+      before do
+        rent_charges_gateway.save(rent_charges)
+        post '/rent-charges', params: valid_attributes
+      end
+
+      it 'creates rent charges for new year' do
+        expect(json_response['year']).to eq('2014')
+        expect(json_response['rc_uplift']).to eq('-0.01')
+
+        expect(rent_charges_gateway.all(2014).count).to eq(2)
+
+        expect(rent_charges_gateway.all(2014).first.uprn).to eq(rent_charges.first[:uprn])
+        expect(rent_charges_gateway.all(2014).first.address).to eq(rent_charges.first[:address])
+        expect(rent_charges_gateway.all(2014).first.address_2).to eq(rent_charges.first[:address_2])
+        expect(rent_charges_gateway.all(2014).first.comments).to eq(rent_charges.first[:comments])
+        expect(rent_charges_gateway.all(2014).first.rr_count).to eq(rent_charges.first[:rr_count])
+        expect(rent_charges_gateway.all(2014).first.property_type).to eq(rent_charges.first[:property_type])
+        expect(rent_charges_gateway.all(2014).first.base_data_bed_size).to eq(rent_charges.first[:base_data_bed_size])
+        expect(rent_charges_gateway.all(2014).first.bedroom_weight).to eq(rent_charges.first[:bedroom_weight])
+        expect(rent_charges_gateway.all(2014).first.mra_archetype).to eq(rent_charges.first[:mra_archetype])
+        expect(rent_charges_gateway.all(2014).first.jan_1999_asset_values).to eq(rent_charges.first[:jan_1999_asset_values])
+        expect(rent_charges_gateway.all(2014).first.year).to eq(rent_charges.first[:year] + 1)
+        expect(rent_charges_gateway.all(2014).first.formula_rent_this_year).to eq(168.3)
+        expect(rent_charges_gateway.all(2014).first.rent_cap_this_year).to eq(178.2)
+        expect(rent_charges_gateway.all(2014).first.uprated_actual).to eq(128.7)
+
+        expect(rent_charges_gateway.all(2014).second.uprn).to eq(rent_charges.third[:uprn])
+        expect(rent_charges_gateway.all(2014).second.address).to eq(rent_charges.third[:address])
+        expect(rent_charges_gateway.all(2014).second.address_2).to eq(rent_charges.third[:address_2])
+        expect(rent_charges_gateway.all(2014).second.comments).to eq(rent_charges.third[:comments])
+        expect(rent_charges_gateway.all(2014).second.rr_count).to eq(rent_charges.third[:rr_count])
+        expect(rent_charges_gateway.all(2014).second.property_type).to eq(rent_charges.third[:property_type])
+        expect(rent_charges_gateway.all(2014).second.base_data_bed_size).to eq(rent_charges.third[:base_data_bed_size])
+        expect(rent_charges_gateway.all(2014).second.bedroom_weight).to eq(rent_charges.third[:bedroom_weight])
+        expect(rent_charges_gateway.all(2014).second.mra_archetype).to eq(rent_charges.third[:mra_archetype])
+        expect(rent_charges_gateway.all(2014).second.jan_1999_asset_values).to eq(rent_charges.third[:jan_1999_asset_values])
+        expect(rent_charges_gateway.all(2014).second.year).to eq(rent_charges.first[:year] + 1)
+        expect(rent_charges_gateway.all(2014).second.formula_rent_this_year).to eq(123.75)
+        expect(rent_charges_gateway.all(2014).second.rent_cap_this_year).to eq(138.6)
+        expect(rent_charges_gateway.all(2014).second.uprated_actual).to eq(188.1)
+      end
+
+      it 'saves fixed data row' do
+        expect(FixedDatum.all.first[:year]).to eq(2014)
+        expect(FixedDatum.all.first[:rc_uplift]).to eq(-0.01)
+      end
+
+      it 'returns status code 201' do
+        expect(response).to have_http_status(201)
+      end
     end
 
-    it 'creates rent charges for new year' do
-      expect(json['year']).to eq('2014')
-      expect(json['rc_uplift']).to eq('-0.01')
+    context 'given invalid attributes' do
+      it 'returns invalid validation error' do
+        invalid_attributes = { rc_uplift: 'abc', year: '12' }
+        post '/rent-charges', params: invalid_attributes
 
-      expect(rent_charges_gateway.all(2014).count).to eq(2)
+        expect(json_response['successful']).to eq(false)
+        expect(json_response['errors']).to eq(['invalid_year', 'invalid_rc_uplift'])
+      end
 
-      expect(rent_charges_gateway.all(2014).first.uprn).to eq(rent_charges.first[:uprn])
-      expect(rent_charges_gateway.all(2014).first.address).to eq(rent_charges.first[:address])
-      expect(rent_charges_gateway.all(2014).first.address_2).to eq(rent_charges.first[:address_2])
-      expect(rent_charges_gateway.all(2014).first.comments).to eq(rent_charges.first[:comments])
-      expect(rent_charges_gateway.all(2014).first.rr_count).to eq(rent_charges.first[:rr_count])
-      expect(rent_charges_gateway.all(2014).first.property_type).to eq(rent_charges.first[:property_type])
-      expect(rent_charges_gateway.all(2014).first.base_data_bed_size).to eq(rent_charges.first[:base_data_bed_size])
-      expect(rent_charges_gateway.all(2014).first.bedroom_weight).to eq(rent_charges.first[:bedroom_weight])
-      expect(rent_charges_gateway.all(2014).first.mra_archetype).to eq(rent_charges.first[:mra_archetype])
-      expect(rent_charges_gateway.all(2014).first.jan_1999_asset_values).to eq(rent_charges.first[:jan_1999_asset_values])
-      expect(rent_charges_gateway.all(2014).first.year).to eq(rent_charges.first[:year] + 1)
-      expect(rent_charges_gateway.all(2014).first.formula_rent_this_year).to eq(168.3)
-      expect(rent_charges_gateway.all(2014).first.rent_cap_this_year).to eq(178.2)
-      expect(rent_charges_gateway.all(2014).first.uprated_actual).to eq(128.7)
+      it 'returns missing validation error' do
+        invalid_attributes = { rc_uplift: nil, year: nil }
+        post '/rent-charges', params: invalid_attributes
 
-      expect(rent_charges_gateway.all(2014).second.uprn).to eq(rent_charges.third[:uprn])
-      expect(rent_charges_gateway.all(2014).second.address).to eq(rent_charges.third[:address])
-      expect(rent_charges_gateway.all(2014).second.address_2).to eq(rent_charges.third[:address_2])
-      expect(rent_charges_gateway.all(2014).second.comments).to eq(rent_charges.third[:comments])
-      expect(rent_charges_gateway.all(2014).second.rr_count).to eq(rent_charges.third[:rr_count])
-      expect(rent_charges_gateway.all(2014).second.property_type).to eq(rent_charges.third[:property_type])
-      expect(rent_charges_gateway.all(2014).second.base_data_bed_size).to eq(rent_charges.third[:base_data_bed_size])
-      expect(rent_charges_gateway.all(2014).second.bedroom_weight).to eq(rent_charges.third[:bedroom_weight])
-      expect(rent_charges_gateway.all(2014).second.mra_archetype).to eq(rent_charges.third[:mra_archetype])
-      expect(rent_charges_gateway.all(2014).second.jan_1999_asset_values).to eq(rent_charges.third[:jan_1999_asset_values])
-      expect(rent_charges_gateway.all(2014).second.year).to eq(rent_charges.first[:year] + 1)
-      expect(rent_charges_gateway.all(2014).second.formula_rent_this_year).to eq(123.75)
-      expect(rent_charges_gateway.all(2014).second.rent_cap_this_year).to eq(138.6)
-      expect(rent_charges_gateway.all(2014).second.uprated_actual).to eq(188.1)
-    end
-
-    it 'saves fixed data row' do
-      expect(fixed_data_gateway.all.first[:year]).to eq(2014)
-      expect(fixed_data_gateway.all.first[:rc_uplift]).to eq(-0.01)
-    end
-
-    it 'returns status code 201' do
-      expect(response).to have_http_status(201)
+        expect(json_response['successful']).to eq(false)
+        expect(json_response['errors']).to eq(['missing_year', 'missing_rc_uplift', 'invalid_year', 'invalid_rc_uplift'])
+      end
     end
   end
 end

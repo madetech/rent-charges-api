@@ -7,7 +7,9 @@ class RentChargesController < ApplicationController
       year: fixed_datum_params[:year],
       rc_uplift: fixed_datum_params[:rc_uplift]
     }
-    rent_charges_use_case_factory.update_rent_charges.execute(fixed_data)
+
+    response = rent_charges_use_case_factory.update_rent_charges.execute(fixed_data)
+    return json_response(response) unless response[:successful] == true
     json_response(fixed_data, :created)
   end
 
