@@ -22,7 +22,7 @@ describe FixedDataGateway do
     expect(rc_uplift).to eq(fixed_datum[0][:rc_uplift])
   end
 
-  it 'returns nil when the year doesnt exists' do
+  it 'returns nil when the year does not exist in the rent charge data' do
     fixed_data_gateway.save(fixed_datum)
     rc_uplift = fixed_data_gateway.rc_uplift(2050)
     expect(rc_uplift).to eq(nil)

@@ -1,61 +1,67 @@
 require 'rails_helper'
 
  RSpec.describe 'View annual rent updates API', type: :request do
-  let!(:rent_charge_data) {[
-    create(:rent_charge, uprn: '1', year:2018),
-    create(:rent_charge, uprn: '1', year:2015),
-    create(:rent_charge, uprn: '2', year:2018),
-    create(:rent_charge, uprn: '4', year:2018),
-    create(:rent_charge, uprn: '2', year:2015),
-    create(:rent_charge, uprn: '3', year:2018)
-  ]}
+    let!(:fixed_data) { create_list(:fixed_datum, 3) }
+    let!(:year) { fixed_data.first.year }
+    let!(:rc_uplift) { fixed_data.first.rc_uplift }
+    let!(:rent_charge_data) {[
+      create(:rent_charge, uprn: '1', year:fixed_data.first.year),
+      create(:rent_charge, uprn: '1', year:2010),
+      create(:rent_charge, uprn: '2', year:fixed_data.first.year),
+      create(:rent_charge, uprn: '2', year:2010),
+      create(:rent_charge, uprn: '3', year:fixed_data.first.year),
+      create(:rent_charge, uprn: '3', year:2010)
+    ]}
 
-  let!(:fixed_data) {[
-    create(:fixed_datum, year:2018, rc_uplift:-2.0),
-    create(:fixed_datum, year:2015, rc_uplift:-1.0) 
-  ]}
+    describe 'GET /annual-rent-updates' do
+        before { get '/annual-rent-updates' }
+        
+        context 'when the rent charge data exist' do
+          it 'returns annual rent data' do
+            expect(json).not_to be_empty
+            expect(json.size).to eq(2)
+          end
+          
+          it 'returns status code 200' do
+            expect(response).to have_http_status(200)
+          end
+        end 
 
-  let(:year) { fixed_data.first.year }
-
-  describe 'GET /annual-rent-updates' do
-      before { get '/annual-rent-updates' }
-
-      it 'returns annual rent data' do
-        expect(json).not_to be_empty
-        expect(json.size).to eq(2)
-      end
-      
-      it 'returns status code 200' do
-        expect(response).to have_http_status(200)
-      end
-  end
-
-  describe 'GET /annual-rent-updates/:year' do
-    before { get "/annual-rent-updates/#{year}" }
-
-    context 'when the record exists' do
-      it 'returns annual rent updates data' do
-        expect(json).not_to be_empty
-        expect(json['year']).to eq('2018')
-        expect(json['rc_uplift']).to eq('-2.0')
-        expect(json['no_of_accounts']).to eq(4)
-      end
-
-      it 'returns status code 200' do
-        expect(response).to have_http_status(200)
-      end
+        context 'when the rent_charge_data does not exist' do
+          let(:rent_charge_data) {[]}
+          it 'returns no data' do
+            expect(json).to be_empty
+            expect(json.size).to eq(0)
+          end
+        end 
     end
 
-    context 'when the record does not exist' do
-      let(:year) { 2011 }
+    describe 'GET /annual-rent-updates/:year' do
+      before { get "/annual-rent-updates/#{year}" }
 
-      it 'returns status code 204' do
-        expect(response).to have_http_status(204)
+      context 'when the year record exist in rent charge data' do
+        it 'returns annual rent updates data' do
+          expect(json).not_to be_empty
+          expect(json['year']).to eq("#{year}")
+          expect(json['rc_uplift']).to eq("#{rc_uplift}")
+          expect(json['no_of_accounts']).to eq(3)
+        end
+
+        it 'returns status code 200' do
+          expect(response).to have_http_status(200)
+        end
       end
 
-      it 'returns no record' do
-        expect(json).to be_nil
-      end
-    end 
-  end
+      context 'when the year record does not exist in rent charge data' do
+        let(:year) { 2015 }
+
+        it 'returns status code 204' do
+          expect(response).to have_http_status(204)
+        end
+
+        it 'returns no record' do
+          expect(json).to be_nil
+        end
+      end 
+    end
 end 

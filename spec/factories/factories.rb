@@ -1,5 +1,10 @@
 # frozen_string_literal :true
 FactoryBot.define do
+  factory :fixed_datum do
+    year  Faker::Number.between(2000, 2010)
+    rc_uplift Faker::Number.between(1, 2)
+  end
+  
   factory :rent_charge do
     uprn '123abc'
     address '1 fake street'

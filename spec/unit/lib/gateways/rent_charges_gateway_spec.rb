@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-describe RentChargeGateway do
-  let(:rent_charge_gateway) { described_class.new }
+describe RentChargesGateway do
+  let(:rent_charges_gateway) { described_class.new }
   let(:rent_charge) do
     [
       {
@@ -40,13 +40,13 @@ describe RentChargeGateway do
   end
 
   it 'can retrieve no items' do
-    data = rent_charge_gateway.all
+    data = rent_charges_gateway.all
     expect(data).to eq([])
   end
 
   it 'can retrieve all items' do
-    rent_charge.each { |data_row| rent_charge_gateway.save(data_row) }
-    data = rent_charge_gateway.all
+    rent_charge.each { |data_row| rent_charges_gateway.save(data_row) }
+    data = rent_charges_gateway.all
 
     expected_data = rent_charge
 
@@ -63,8 +63,8 @@ describe RentChargeGateway do
 
   context 'specific year' do
     it 'can save and retrieve a record' do
-      rent_charge.each { |data_row| rent_charge_gateway.save(data_row) }
-      data = rent_charge_gateway.find_by_year('2014-15')
+      rent_charge.each { |data_row| rent_charges_gateway.save(data_row) }
+      data = rent_charges_gateway.find_by_year('2014-15')
 
       expected_data = rent_charge
 

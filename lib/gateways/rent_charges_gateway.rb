@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RentChargeGateway
+class RentChargesGateway
   def all
     RentCharge.all
   end
