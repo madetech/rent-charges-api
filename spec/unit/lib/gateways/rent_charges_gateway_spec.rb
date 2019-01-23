@@ -92,7 +92,7 @@ describe RentChargesGateway do
       mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
       jan_1999_asset_values: Faker::Number.between(20000, 100000),
       year: year,
-      removed: :false,
+      removed: Faker::Boolean,
       formula_rent_this_year: Faker::Number.between(100, 200),
       rent_cap_this_year: Faker::Number.between(100, 200),
       uprated_actual: Faker::Number.between(100, 200)

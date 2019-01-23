@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'use_cases/update_rent_charges'
+require 'use_cases/view_rent_charge_statistics'
 require 'use_cases/use_case_factory'
 require 'gateways/fixed_data_gateway'
 require 'gateways/rent_charges_gateway'

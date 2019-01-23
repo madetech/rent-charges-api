@@ -34,7 +34,7 @@ RSpec.describe 'RentCharges API', type: :request do
         mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
         jan_1999_asset_values: Faker::Number.between(20000, 100000),
         year: year,
-        removed: :false,
+        removed: Faker::Boolean,
         formula_rent_this_year: randomised_rent_charge,
         rent_cap_this_year: randomised_rent_charge,
         uprated_actual: randomised_rent_charge
@@ -51,7 +51,7 @@ RSpec.describe 'RentCharges API', type: :request do
         mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
         jan_1999_asset_values: Faker::Number.between(20000, 100000),
         year: year - 23,
-        removed: :false,
+        removed: Faker::Boolean,
         formula_rent_this_year: randomised_rent_charge,
         rent_cap_this_year: randomised_rent_charge,
         uprated_actual: randomised_rent_charge
@@ -68,7 +68,7 @@ RSpec.describe 'RentCharges API', type: :request do
         mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
         jan_1999_asset_values: Faker::Number.between(20000, 100000),
         year: year,
-        removed: :false,
+        removed: Faker::Boolean,
         formula_rent_this_year: randomised_rent_charge,
         rent_cap_this_year: randomised_rent_charge,
         uprated_actual: randomised_rent_charge
