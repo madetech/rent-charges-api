@@ -1,9 +1,21 @@
 class FixedDataGateway
-  def find_by_year(year)
-    FixedDatum.find_by(year: year)
+  def save(fixed_data)
+    FixedDatum.create!(fixed_data)
+    nil
   end
 
-   def rc_uplift(year)
-    find_by_year(year)[:rc_uplift] if find_by_year(year)
+  def all
+    fixed_data = FixedDatum.all do |fixed_data|
+      Domain::FixedData.new(
+        year: fixed_data[:year],
+        rc_uplift: fixed_data[:rc_uplift]
+      )
+    end
+    fixed_data
+  end
+
+  def rc_uplift(year)
+    rc_uplift_by_year = all.find_by_year(year)
+    rc_uplift_by_year[:rc_uplift] unless rc_uplift_by_year.nil?
   end
 end 
