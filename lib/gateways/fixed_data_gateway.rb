@@ -13,7 +13,7 @@ class FixedDataGateway
     end
     fixed_data
   end
-
+  
   def rc_uplift(year)
     rc_uplift_by_year = all.find_by_year(year)
     rc_uplift_by_year[:rc_uplift] unless rc_uplift_by_year.nil?

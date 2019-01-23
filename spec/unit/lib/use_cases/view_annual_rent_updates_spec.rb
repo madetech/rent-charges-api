@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe ViewHistoricalPercentChanges do
+describe ViewAnnualRentUpdates do
   let(:rent_charge_gateway ) do
-    spy(all:[
+    double(all:[
       { uprn: 1, year: 2018}, 
       { uprn: 1, year: 2011}, 
       { uprn: 2, year: 2018}, 
@@ -16,7 +16,7 @@ describe ViewHistoricalPercentChanges do
   end
 
   context 'given no historical data' do
-    let(:rent_charge_gateway ) { spy(all:[]) }
+    let(:rent_charge_gateway ) { double(all:[]) }
 
     it 'returns no records' do
       allow(fixed_data_gateway).to receive(:rc_uplift) { 0.0 }

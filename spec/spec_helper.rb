@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'use_cases/view_historical_percent_changes'
+require 'use_cases/view_annual_rent_updates'
 require 'use_cases/save_rent_detail'
 require 'gateways/rent_charge_gateway'
 require 'gateways/fixed_data_gateway'

@@ -1,4 +1,4 @@
-class ViewHistoricalPercentChanges
+class ViewAnnualRentUpdates
   def initialize(rent_charge_gateway:, fixed_data_gateway:)
     @rent_charge_gateway = rent_charge_gateway
     @fixed_data_gateway = fixed_data_gateway
@@ -9,7 +9,7 @@ class ViewHistoricalPercentChanges
 
   def execute
     counts.map do |item|
-       { year: item[0], no_of_accounts: item[1], rc_uplift: fixed_data_gateway.rc_uplift(item[0]) }
+       { year: item[:year], no_of_accounts: item[:count], rc_uplift: fixed_data_gateway.rc_uplift(item[:year]) }
     end
   end 
 
@@ -22,7 +22,7 @@ class ViewHistoricalPercentChanges
 
   def counts
     rent_charge_gateway.all.group_by { |i| i[:year] }.map do |key, value| 
-      [key , value.count]
+      {year: key , count: value.count}
     end
   end 
 

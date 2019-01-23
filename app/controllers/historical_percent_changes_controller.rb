@@ -1,28 +1,28 @@
 class HistoricalPercentChangesController < ApplicationController
-  before_action :set_fixed_datum, only: %i[show update destroy]
+  before_action :set_year, only: %i[show update destroy]
 
   def initialize
    rent_charge_gateway = RentChargeGateway.new
    fixed_data_gateway = FixedDataGateway.new
-   @view_historical_percent_changes = ViewHistoricalPercentChanges.new(
+   @view_annual_rent_updates = ViewAnnualRentUpdates.new(
     rent_charge_gateway: rent_charge_gateway, fixed_data_gateway: fixed_data_gateway)
   end
   
    # GET /historical-percent-change
   def index
-    response = @view_historical_percent_changes.execute
+    response = @view_annual_rent_updates.execute
     json_response(response)
   end
 
   # GET /historical-percent-change/:year
   def show
-    response = @view_historical_percent_changes.percent_changes_for_specific_year(@year)
+    response = @view_annual_rent_updates.percent_changes_for_specific_year(@year)
     return json_response(response) unless response[:error] == :no_record_found
   end
 
   private
 
-  def set_fixed_datum
+  def set_year
    @year = params[:id]
   end
 end
