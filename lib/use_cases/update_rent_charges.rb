@@ -40,12 +40,12 @@ class UpdateRentCharges
     end
   end
 
-  def calc_rent_cap_this_year(rent_cap, rc_uplift)
-    (rent_cap * ( 1 + rc_uplift)).round(2) 
-  end
-
   def calc_formula_rent_this_year(formula_rent)
     (formula_rent * 0.99).round(2)
+  end
+
+  def calc_rent_cap_this_year(rent_cap, rc_uplift)
+    (rent_cap * ( 1 + rc_uplift)).round(2) 
   end
 
   def calc_uprated_actual_rent(current_rent)

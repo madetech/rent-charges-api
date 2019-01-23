@@ -72,6 +72,12 @@ describe RentChargesGateway do
     expect(rent_charges[1].uprated_actual).to eq(110)
   end
 
+  let(:property_type_enumerables) { Models::RentCharge.property_types }
+
+  def property_types
+    property_type_enumerables.map { |key, value| key }
+  end
+
   let(:year) { Faker::Number.between(2000, 2050) }
   let(:rent_charges_for_different_year) { [
     { 
@@ -80,7 +86,7 @@ describe RentChargesGateway do
       address_2: Faker::Base.regexify(/[A-Z]{1}[a-z]{5,10}/),
       comments: Faker::Base.regexify(/[a-z ]{15}/),
       rr_count: Faker::Number.between(1, 3),
-      property_type: 'Flat',
+      property_type: property_types.sample,
       base_data_bed_size: Faker::Number.between(1, 3),
       bedroom_weight: Faker::Number.between(0, 1),
       mra_archetype: Faker::Base.regexify(/[a-z]{5,10}/),
@@ -102,7 +108,7 @@ describe RentChargesGateway do
     expect(rent_charges[0].address_2).to eq(rent_charges_for_different_year[0][:address_2])
     expect(rent_charges[0].comments).to eq(rent_charges_for_different_year[0][:comments])
     expect(rent_charges[0].rr_count).to eq(rent_charges_for_different_year[0][:rr_count])
-    expect(rent_charges[0].property_type).to eq('Flat')
+    expect(rent_charges[0].property_type).to eq(rent_charges_for_different_year[0][:property_type])
     expect(rent_charges[0].base_data_bed_size).to eq(rent_charges_for_different_year[0][:base_data_bed_size])
     expect(rent_charges[0].bedroom_weight).to eq(rent_charges_for_different_year[0][:bedroom_weight])
     expect(rent_charges[0].mra_archetype).to eq(rent_charges_for_different_year[0][:mra_archetype])

@@ -6,7 +6,7 @@ class RentChargesGateway
   end
 
   def all(year)
-    rent_charges_by_year = Models::RentCharge.where(year: year).map do |rent_charge|
+    Models::RentCharge.where(year: year).map do |rent_charge|
       Domain::RentCharge.new(
         uprn: rent_charge[:uprn],
         address: rent_charge[:address],
@@ -25,6 +25,5 @@ class RentChargesGateway
         uprated_actual: rent_charge[:uprated_actual]
       )
     end
-    rent_charges_by_year
   end
 end
