@@ -18,8 +18,8 @@ require 'rails_helper'
         
         context 'when the rent charge data exist' do
           it 'returns annual rent data' do
-            expect(json).not_to be_empty
-            expect(json.size).to eq(2)
+            expect(json_response).not_to be_empty
+            expect(json_response.size).to eq(2)
           end
           
           it 'returns status code 200' do
@@ -30,8 +30,8 @@ require 'rails_helper'
         context 'when the rent_charge_data does not exist' do
           let(:rent_charge_data) {[]}
           it 'returns no data' do
-            expect(json).to be_empty
-            expect(json.size).to eq(0)
+            expect(json_response).to be_empty
+            expect(json_response.size).to eq(0)
           end
         end 
     end
@@ -41,10 +41,10 @@ require 'rails_helper'
 
       context 'when the year record exist in rent charge data' do
         it 'returns annual rent updates data' do
-          expect(json).not_to be_empty
-          expect(json['year']).to eq("#{year}")
-          expect(json['rc_uplift']).to eq("#{rc_uplift}")
-          expect(json['no_of_accounts']).to eq(3)
+          expect(json_response).not_to be_empty
+          expect(json_response['year']).to eq("#{year}")
+          expect(json_response['rc_uplift']).to eq("#{rc_uplift}")
+          expect(json_response['no_of_accounts']).to eq(3)
         end
 
         it 'returns status code 200' do
@@ -60,7 +60,7 @@ require 'rails_helper'
         end
 
         it 'returns no record' do
-          expect(json).to be_nil
+          expect(json_response).to be_nil
         end
       end 
     end

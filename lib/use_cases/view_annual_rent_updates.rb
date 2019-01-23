@@ -21,12 +21,12 @@ class ViewAnnualRentUpdates
   private
 
   def counts
-    rent_charges_gateway.all.group_by { |i| i[:year] }.map do |key, value| 
+    rent_charges_gateway.all_rent_charges.group_by { |i| i[:year] }.map do |key, value| 
       {year: key , count: value.count}
     end
   end 
 
   def no_of_accounts_count(year)
-    rent_charges_gateway.all.count { |item| item[:year] == year.to_i }
+    rent_charges_gateway.all_rent_charges.count { |item| item[:year] == year.to_i }
   end 
 end

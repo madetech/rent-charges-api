@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ViewAnnualRentUpdates do
   let(:rent_charges_gateway ) do
-    double(all:[
+    double(all_rent_charges:[
       { uprn: 1, year: 2018}, 
       { uprn: 1, year: 2011}, 
       { uprn: 2, year: 2018}, 
@@ -16,7 +16,7 @@ describe ViewAnnualRentUpdates do
   end
 
   context 'given no historical data' do
-    let(:rent_charges_gateway ) { double(all:[]) }
+    let(:rent_charges_gateway ) { double(all_rent_charges:[]) }
 
     it 'returns no records' do
       allow(fixed_data_gateway).to receive(:rc_uplift) { 0.0 }

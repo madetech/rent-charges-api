@@ -7,8 +7,8 @@ class RentChargesGateway
     end
   end
   
-  def all
-    RentCharge.all
+  def all_rent_charges
+    Models::RentCharge.all
   end
 
   def all(year)

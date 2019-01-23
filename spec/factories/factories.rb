@@ -1,11 +1,11 @@
 # frozen_string_literal :true
 FactoryBot.define do
-  factory :fixed_datum do
+  factory :fixed_datum, :class => Models::FixedDatum do
     year  Faker::Number.between(2000, 2010)
     rc_uplift Faker::Number.between(1, 2)
   end
   
-  factory :rent_charge do
+  factory :rent_charge, :class => Models::RentCharge do
     uprn '123abc'
     address '1 fake street'
     address_2 'fake town'
