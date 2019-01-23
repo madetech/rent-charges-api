@@ -1,6 +1,6 @@
 require 'rails_helper'
 
- RSpec.describe 'View Historical percent changes API', type: :request do
+ RSpec.describe 'View annual rent updates API', type: :request do
   let!(:rent_charge_data) {[
     create(:rent_charge, uprn: '1', year:2018),
     create(:rent_charge, uprn: '1', year:2015),
@@ -17,10 +17,10 @@ require 'rails_helper'
 
   let(:year) { fixed_data.first.year }
 
-  describe 'GET /historical-percent-change' do
-      before { get '/historical-percent-change' }
+  describe 'GET /annual-rent-updates' do
+      before { get '/annual-rent-updates' }
 
-      it 'returns historical data' do
+      it 'returns annual rent data' do
         expect(json).not_to be_empty
         expect(json.size).to eq(2)
       end
@@ -30,11 +30,11 @@ require 'rails_helper'
       end
   end
 
-  describe 'GET /historical-percent-change/:year' do
-    before { get "/historical-percent-change/#{year}" }
+  describe 'GET /annual-rent-updates/:year' do
+    before { get "/annual-rent-updates/#{year}" }
 
     context 'when the record exists' do
-      it 'returns the historical percentange change data' do
+      it 'returns annual rent updates data' do
         expect(json).not_to be_empty
         expect(json['year']).to eq('2018')
         expect(json['rc_uplift']).to eq('-2.0')

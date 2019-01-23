@@ -2,5 +2,5 @@
 
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :historical_percent_changes, path: 'historical-percent-change'
+  resources :annual_rent_updates, path: 'annual-rent-updates'
 end
