@@ -1,11 +1,11 @@
 class FixedDataGateway
   def save(fixed_data)
-    FixedDatum.create!(fixed_data)
+    Models::FixedDatum.create!(fixed_data)
     nil
   end
 
   def all
-    fixed_data = FixedDatum.all do |fixed_data|
+    fixed_data = Models::FixedDatum.all do |fixed_data|
       Domain::FixedData.new(
         year: fixed_data[:year],
         rc_uplift: fixed_data[:rc_uplift]
@@ -19,3 +19,4 @@ class FixedDataGateway
     rc_uplift_by_year[:rc_uplift] unless rc_uplift_by_year.nil?
   end
 end 
+
