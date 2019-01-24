@@ -2,10 +2,8 @@ require 'rails_helper'
 
  RSpec.describe 'View annual rent updates API', type: :request do
     let!(:fixed_data) { create_list(:fixed_datum, 10) }
-   
-    let(:rc_uplift_1) { fixed_data.first.rc_uplift }
-    let(:rc_uplift_2) { fixed_data.second.rc_uplift }
-    let(:rc_uplift_3) { fixed_data.third.rc_uplift }
+
+    let(:rc_uplift) { fixed_data.second.rc_uplift }
 
     let(:year_1) { Faker::Number.between(1, 10) + fixed_data.second.year }
     let(:year_2) { fixed_data.second.year }
@@ -51,7 +49,7 @@ require 'rails_helper'
         it 'returns annual rent updates data for second year in fixed data ' do
           expect(json_response).not_to be_empty
           expect(json_response['year']).to eq("#{year}")
-          expect(json_response['rc_uplift']).to eq("#{fixed_data.second.rc_uplift}")
+          expect(json_response['rc_uplift']).to eq("#{rc_uplift}")
           expect(json_response['no_of_accounts']).to eq(2)
         end
 

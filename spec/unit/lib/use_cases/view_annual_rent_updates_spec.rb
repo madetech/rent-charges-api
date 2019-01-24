@@ -2,17 +2,17 @@ require 'rails_helper'
 
 describe ViewAnnualRentUpdates do
   let!(:fixed_data) { create_list(:fixed_datum, 10) }
-
   let(:year_1) { fixed_data.first.year }
-  let(:year_2) { Faker::Number.between(1, 20) + fixed_data.second.year }
-
+  let(:year_2) { Faker::Number.between(1, 20) + fixed_data.first.year }
+  let!(:rent_charges_data_year_1) { create(:rent_charge, year: year_1) }
+  let!(:rent_charges_data_year_2) { create(:rent_charge, year: year_2) }
   let(:rent_charges_gateway ) do
     double(all_rent_charges:[
-      create(:rent_charge, year: year_1), 
-      create(:rent_charge, year: year_2), 
-      create(:rent_charge, year: year_1), 
-      create(:rent_charge, year: year_2),
-      create(:rent_charge, year: year_1)
+      rent_charges_data_year_1, 
+      rent_charges_data_year_2, 
+      rent_charges_data_year_1, 
+      rent_charges_data_year_2,
+      rent_charges_data_year_1
     ]) 
   end 
 

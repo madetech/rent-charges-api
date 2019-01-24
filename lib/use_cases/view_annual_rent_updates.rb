@@ -5,7 +5,8 @@ class ViewAnnualRentUpdates
   end
 
   attr_reader :rent_charges_gateway,
-              :fixed_data_gateway
+              :fixed_data_gateway,
+              :year
 
   def execute
     counts.map do |item|
@@ -14,11 +15,10 @@ class ViewAnnualRentUpdates
   end 
 
   def specific_year(year: year)
-    errors = validations(year)
-
+    @year = year
+    errors = validations
     return { successful: false, errors: errors } unless errors.empty?
-    
-    { year: year, no_of_accounts: no_of_accounts_count(year), rc_uplift: fixed_data_gateway.rc_uplift(year) }
+    { year: year, no_of_accounts: no_of_accounts_count, rc_uplift: fixed_data_gateway.rc_uplift(year) }
   end 
 
   private
@@ -29,19 +29,19 @@ class ViewAnnualRentUpdates
     end
   end 
 
-  def no_of_accounts_count(year)
+  def no_of_accounts_count
     rent_charges_gateway.all_rent_charges.count { |item| item[:year] == year.to_i }
   end 
 
-  def validations(year)
+  def validations
     errors = []
     errors.push(:missing_year) if year.nil?
-    errors.push(:invalid_year) unless valid_year?(year)
-    errors.push(:no_record_found) if no_of_accounts_count(year).zero?
+    errors.push(:invalid_year) unless valid_year?
+    errors.push(:no_record_found) if no_of_accounts_count.zero?
     errors
   end
 
-   def valid_year?(year)
+   def valid_year?
     year.to_s.match(/[0-9]{4}/)
   end
 end

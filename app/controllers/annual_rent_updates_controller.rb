@@ -3,20 +3,20 @@ class AnnualRentUpdatesController < ApplicationController
   
    # GET /annual-rent-updates
   def index
-    response = use_case_factory.view_annual_rent_updates.execute
-    json_response(response)
+    annual_rent_updates = use_case_factory.view_annual_rent_updates.execute
+    json_response(annual_rent_updates)
   end
 
   # GET /annual-rent-updates/:year
   def show
-    response = use_case_factory.view_annual_rent_updates.specific_year(year: @year)
-    json_response(response) 
+    annual_rent_updates = use_case_factory.view_annual_rent_updates.specific_year(year: @year)
+    json_response(annual_rent_updates) 
   end
 
   private
 
   def set_year
-   @year = params[:id]
+   @year = params[:id] 
   end
 end
 
