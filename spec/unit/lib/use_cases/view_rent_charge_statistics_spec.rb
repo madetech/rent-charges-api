@@ -17,9 +17,9 @@ describe RentChargeStatistics do
 
     let(:year) { 2014 }
 
-    let(:rent_charge_gateway) { double(all: rent_charges) }
+    let(:rent_charges_gateway) { double(all: rent_charges) }
     let(:view_rent_charge_statistics) { 
-      described_class.new(rent_charge_gateway: rent_charge_gateway, year: year) }
+      described_class.new(rent_charges_gateway: rent_charges_gateway) }
 
     it 'returns statistics for given year' do
       response = view_rent_charge_statistics.execute(year: year)
@@ -33,10 +33,10 @@ describe RentChargeStatistics do
 
   context 'random test data' do
     let(:rent_charges) { create_list(:rent_charge, 5) }
-    let(:rent_charge_gateway) { double(all: rent_charges) }
+    let(:rent_charges_gateway) { double(all: rent_charges) }
     let(:year) { rent_charges.first.year }
     let(:view_rent_charge_statistics) { 
-      described_class.new(rent_charge_gateway: rent_charge_gateway, year: year) }
+      described_class.new(rent_charges_gateway: rent_charges_gateway) }
 
     def average(value)
       sum = 0

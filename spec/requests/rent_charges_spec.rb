@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-
 RSpec.describe 'RentCharges API', type: :request do
   describe 'POST /rent-charges' do
     let(:rent_charges_gateway) { RentChargesGateway.new }
-    let(:fixed_data_gateway) { FixedDataGateway.new }
-    let(:update_rent_charges) { UpdateRentCharges.new }
 
     let(:year) { Faker::Number.between(2000, 2050) }
-    let(:valid_attributes) { { rc_uplift: '-0.01', year: year + 1} }
+    let(:valid_attributes) { { rc_uplift: '-0.01', year: (year + 1).to_s } }
 
     let(:property_type_enumerables) { Models::RentCharge.property_types }
 

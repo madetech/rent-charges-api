@@ -3,6 +3,10 @@ class UseCaseFactory
     UpdateRentCharges.new(fixed_data_gateway: fixed_data_gateway, rent_charges_gateway: rent_charges_gateway)
   end
 
+  def view_rent_charge_statistics
+    RentChargeStatistics.new(rent_charges_gateway: rent_charges_gateway)
+  end
+
   private
 
   def fixed_data_gateway
