@@ -30,7 +30,7 @@ FactoryBot.define do
     bedroom_weight { Faker::Number.between(0, 1) }
     mra_archetype { Faker::Base.regexify(/[a-z]{5,10}/) }
     jan_1999_asset_values { Faker::Number.between(20000, 100000) }
-    year { Faker::Number.between(2000, 2050) }
+    year { Faker::Number.between(1, 20) + year  }
     removed { Faker::Boolean }
     formula_rent_this_year { Faker::Number.between(100, 200) }
     rent_cap_this_year { Faker::Number.between(100, 200) }
