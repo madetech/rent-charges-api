@@ -28,6 +28,9 @@ class RentChargeStatistics
     errors = []
     errors.push(:missing_year) if year.nil?
     errors.push(:invalid_year) unless valid_year?(year)
+    if @rent_charges_gateway.all(year).empty? && errors == []
+      errors.push(:no_records_for_specified_year) 
+    end
     errors
   end
 

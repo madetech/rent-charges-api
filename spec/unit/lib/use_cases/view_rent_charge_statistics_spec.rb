@@ -73,4 +73,16 @@ describe RentChargeStatistics do
       expect(response).to eq({ successful: false, errors: [:invalid_year] })
     end
   end
+
+  context 'no records for year' do
+    let(:rent_charges) { [] }
+    let(:rent_charges_gateway) { double(all: rent_charges) }
+    let(:view_rent_charge_statistics) { 
+      described_class.new(rent_charges_gateway: rent_charges_gateway) }
+
+    it 'returns error' do
+      response = view_rent_charge_statistics.execute(year: '2013')
+      expect(response).to eq({ successful: false, errors: [:no_records_for_specified_year] })
+    end
+  end
 end

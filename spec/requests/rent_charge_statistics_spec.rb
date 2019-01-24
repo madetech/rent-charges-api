@@ -51,5 +51,15 @@ RSpec.describe 'RentCharges API', type: :request do
         expect(json_response['errors']).to eq(['invalid_year'])
       end
     end
+
+    context 'no records for year' do
+      it 'returns error' do
+        year = '2012'
+        get "/rent-charge-statistics/#{year}"
+
+        expect(json_response['successful']).to eq(false)
+        expect(json_response['errors']).to eq(['no_records_for_specified_year'])
+      end
+    end
   end
 end
