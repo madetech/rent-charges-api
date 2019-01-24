@@ -71,7 +71,7 @@ RSpec.describe 'RentCharges API', type: :request do
       }
     ]}
     
-    context 'valid attributes' do
+    context 'given valid attributes' do
 
       before do
         rent_charges_gateway.save(rent_charges)
@@ -84,7 +84,7 @@ RSpec.describe 'RentCharges API', type: :request do
         expect(json_response['year']).to eq((chosen_year).to_s )
         expect(json_response['rc_uplift']).to eq('-0.01')
 
-        expect(rent_charges_gateway.all(rent_charges.first[:year] + 1).count).to eq(2)
+        expect(rent_charges_gateway.all(chosen_year).count).to eq(2)
 
         (0..1).each do |index|
           expect(rent_charges_gateway.all(chosen_year)[index].uprn).to eq(rent_charges[index + index*1][:uprn])

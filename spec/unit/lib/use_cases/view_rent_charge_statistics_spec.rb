@@ -15,11 +15,11 @@ describe RentChargeStatistics do
         uprated_actual: 3)
     ] }
 
-    let(:year) { 2014 }
-
     let(:rent_charges_gateway) { double(all: rent_charges) }
     let(:view_rent_charge_statistics) { 
       described_class.new(rent_charges_gateway: rent_charges_gateway) }
+
+    let(:year) { 2014 }
 
     it 'returns statistics for given year' do
       response = view_rent_charge_statistics.execute(year: year)
@@ -34,9 +34,10 @@ describe RentChargeStatistics do
   context 'random test data' do
     let(:rent_charges) { create_list(:rent_charge, 5) }
     let(:rent_charges_gateway) { double(all: rent_charges) }
-    let(:year) { rent_charges.first.year }
     let(:view_rent_charge_statistics) { 
       described_class.new(rent_charges_gateway: rent_charges_gateway) }
+
+    let(:year) { rent_charges.first.year }
 
     def average(value)
       sum = 0
@@ -53,6 +54,23 @@ describe RentChargeStatistics do
         average_rent_cap: average(:rent_cap_this_year),
         average_uprated_actual: average(:uprated_actual)
       })
+    end
+  end
+
+  context 'invalid year' do
+    let(:rent_charges) { create_list(:rent_charge, 3) }
+    let(:rent_charges_gateway) { double(all: rent_charges) }
+    let(:view_rent_charge_statistics) { 
+      described_class.new(rent_charges_gateway: rent_charges_gateway) }
+
+    it 'returns error if no year' do
+      response = view_rent_charge_statistics.execute(year: nil)
+      expect(response).to eq({ successful: false, errors: [:missing_year, :invalid_year] })
+    end
+
+    it 'returns error if invalid year' do
+      response = view_rent_charge_statistics.execute(year: 'abc')
+      expect(response).to eq({ successful: false, errors: [:invalid_year] })
     end
   end
 end
