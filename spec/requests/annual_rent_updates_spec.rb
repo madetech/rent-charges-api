@@ -7,9 +7,9 @@ require 'rails_helper'
     let(:rc_uplift_2) { fixed_data.second.rc_uplift }
     let(:rc_uplift_3) { fixed_data.third.rc_uplift }
 
-    let(:year_1) { Faker::Number.between(1, 10) + fixed_data.first.year }
+    let(:year_1) { Faker::Number.between(1, 10) + fixed_data.second.year }
     let(:year_2) { fixed_data.second.year }
-    let(:year_3) { Faker::Number.between(20, 30) + fixed_data.third.year }
+    let(:year_3) { Faker::Number.between(11, 20) + fixed_data.second.year }
 
     let!(:rent_charges_data_year_1) { create_list(:rent_charge, 5, year: year_1) }
     let!(:rent_charges_data_year_2) { create_list(:rent_charge, 2, year: year_2) }
@@ -68,8 +68,19 @@ require 'rails_helper'
         end
       
         it 'returns error' do
-          expect(json_response['error']).to eq('no_record_found')
+          expect(json_response['errors']).to eq(['no_record_found'])
         end
       end 
+
+      context 'given invalid year' do
+        let!(:year) { '123' }
+
+        it 'returns missing validation error' do
+           expect(json_response['successful']).to eq(false)
+           expect(json_response['errors']).to eq(['invalid_year','no_record_found'])
+        end 
+      end
     end
 end 
+
+

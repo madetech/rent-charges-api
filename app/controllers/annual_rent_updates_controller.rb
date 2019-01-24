@@ -9,7 +9,7 @@ class AnnualRentUpdatesController < ApplicationController
 
   # GET /annual-rent-updates/:year
   def show
-    response = use_case_factory.view_annual_rent_updates.specific_year(@year)
+    response = use_case_factory.view_annual_rent_updates.specific_year(year: @year)
     json_response(response) 
   end
 

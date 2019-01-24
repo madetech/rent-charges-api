@@ -13,8 +13,11 @@ class ViewAnnualRentUpdates
     end
   end 
 
-  def specific_year(year)
-    return { error: :no_record_found } if no_of_accounts_count(year).zero?
+  def specific_year(year: year)
+    errors = validations(year)
+
+    return { successful: false, errors: errors } unless errors.empty?
+    
     { year: year, no_of_accounts: no_of_accounts_count(year), rc_uplift: fixed_data_gateway.rc_uplift(year) }
   end 
 
@@ -29,4 +32,16 @@ class ViewAnnualRentUpdates
   def no_of_accounts_count(year)
     rent_charges_gateway.all_rent_charges.count { |item| item[:year] == year.to_i }
   end 
+
+  def validations(year)
+    errors = []
+    errors.push(:missing_year) if year.nil?
+    errors.push(:invalid_year) unless valid_year?(year)
+    errors.push(:no_record_found) if no_of_accounts_count(year).zero?
+    errors
+  end
+
+   def valid_year?(year)
+    year.to_s.match(/[0-9]{4}/)
+  end
 end

@@ -1,5 +1,7 @@
 # frozen_string_literal :true
 FactoryBot.define do
+  property_type_enumerables = Models::RentCharge.property_types
+  
   factory :fixed_datum, :class => Models::FixedDatum do
     year  { Faker::Number.between(2000, 2050) }
     rc_uplift { Faker::Number.between(1, 2) }
@@ -11,7 +13,7 @@ FactoryBot.define do
     address_2 { Faker::Base.regexify(/[A-Z]{1}[a-z]{5,10}/) }
     comments { Faker::Base.regexify(/[a-z ]{15}/) }
     rr_count { Faker::Number.between(1, 3) }
-    property_type { 'Flat' }
+    property_type { property_type_enumerables.map { |key, value| key }.sample }
     base_data_bed_size { Faker::Number.between(1, 3) }
     bedroom_weight { Faker::Number.between(0, 1) }
     mra_archetype { Faker::Base.regexify(/[a-z]{5,10}/) }
