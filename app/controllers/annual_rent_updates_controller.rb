@@ -10,7 +10,7 @@ class AnnualRentUpdatesController < ApplicationController
   # GET /annual-rent-updates/:year
   def show
     response = use_case_factory.view_annual_rent_updates.specific_year(@year)
-    return json_response(response) unless response[:error] == :no_record_found
+    json_response(response) 
   end
 
   private

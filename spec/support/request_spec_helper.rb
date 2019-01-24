@@ -1,6 +1,6 @@
 module RequestSpecHelper
   def json_response
-    JSON.parse(response.body) unless response.body.empty?
+    JSON.parse(response.body) 
   end
 end
 
