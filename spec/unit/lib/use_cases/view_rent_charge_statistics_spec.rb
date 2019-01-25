@@ -75,8 +75,7 @@ describe RentChargeStatistics do
   end
 
   context 'no records for year' do
-    let(:rent_charges) { [] }
-    let(:rent_charges_gateway) { double(all: rent_charges) }
+    let(:rent_charges_gateway) { double(all: []) }
     let(:view_rent_charge_statistics) { 
       described_class.new(rent_charges_gateway: rent_charges_gateway) }
 
