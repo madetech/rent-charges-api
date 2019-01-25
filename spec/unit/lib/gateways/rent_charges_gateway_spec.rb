@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe RentChargesGateway do
   let(:rent_charges_gateway) { RentChargesGateway.new }
   let(:rent_charges_for_given_year) { [
