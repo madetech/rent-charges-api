@@ -1,5 +1,5 @@
 class AnnualRentUpdatesController < ApplicationController
-  before_action :set_year, only: %i[show update destroy]
+  before_action :set_year, only: %i[show]
   
    # GET /annual-rent-updates
   def index
